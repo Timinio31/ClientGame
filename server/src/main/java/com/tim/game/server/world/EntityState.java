@@ -31,6 +31,10 @@ public class EntityState {
     private float stamina;
     private float maxStamina;
 
+    private String buildingType; 
+    private Integer tileX;
+    private Integer tileY;
+
     public EntityState(EntityId id,
                        EntityType type,
                        String clientId,
@@ -103,5 +107,29 @@ public class EntityState {
 
     public void setMaxStamina(float maxStamina) {
         this.maxStamina = maxStamina;
+    }
+
+    public String getBuildingType() { 
+        return buildingType; 
+    }
+    
+    public void setBuildingType(String buildingType) { 
+        this.buildingType = buildingType;
+    }
+
+    public Integer getTileX() { 
+        return tileX; 
+    }
+    
+    public void setTileX(Integer tileX) { 
+        this.tileX = tileX; 
+    }
+
+    public Integer getTileY() { 
+        return tileY; 
+    }
+    
+    public void setTileY(Integer tileY) { 
+        this.tileY = tileY; 
     }
 }

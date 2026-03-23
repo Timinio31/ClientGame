@@ -1,5 +1,4 @@
 package com.tim.game.shared.DTOs.update;
-import com.tim.game.shared.model.EntityId;
 import com.tim.game.shared.model.EntityType;
 import com.tim.game.shared.model.Vector2f;
 
@@ -13,7 +12,7 @@ import com.tim.game.shared.model.Vector2f;
  * Wird vom Server an die Clients gesendet (z.B. im WorldSnapshot oder bei Einzel-Updates).
  */
 public class PlayerStateDto {
-    private EntityId entityId;
+    private String entityId;
     private String clientId;
     private EntityType type;
     private Vector2f position;
@@ -26,7 +25,7 @@ public class PlayerStateDto {
 
     public PlayerStateDto(){}
 
-    public PlayerStateDto(EntityId entityId,String clientId,EntityType type,Vector2f position,float health,float maxHealth,float stamina,float maxStamina) {
+    public PlayerStateDto(String entityId,String clientId,EntityType type,Vector2f position,float health,float maxHealth,float stamina,float maxStamina) {
         this.entityId = entityId;
         this.clientId = clientId;
         this.type = type;
@@ -37,11 +36,11 @@ public class PlayerStateDto {
         this.maxStamina = maxStamina;
     }
 
-     public EntityId getEntityId() {
+    public String getEntityId() {
         return entityId;
     }
 
-    public void setEntityId(EntityId entityId) {
+    public void setEntityId(String entityId) {
         this.entityId = entityId;
     }
 

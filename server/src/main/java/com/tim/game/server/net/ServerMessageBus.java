@@ -48,14 +48,20 @@ public class ServerMessageBus {
 
     DeliverCallback deliverCallback = (consumerTag, delivery) -> {
         byte[] body = delivery.getBody();
-        // TODO: hier body -> CommandMessage deserialisieren
-            // Beispiel (später mit JSON):
-            // CommandMessage cmd = deserializeCommand(body);
-            // commandQueue.offer(cmd);
-        
-        // Für den Moment: nur debuggen
-            System.out.println("Received raw command bytes, length=" + body.length);
+
+        try {
+            CommandMessage cmd = deserializeCommand(body);   // JSON -> CommandMessage
+            commandQueue.offer(cmd);                         // IMPORTANT: in Queue legen
+
+            System.out.println("[Server] Received command: type=" + cmd.getType()
+                    + " room=" + cmd.getRoomId()
+                    + " client=" + cmd.getClientId());
+        } catch (Exception e) {
+            System.err.println("[Server] Failed to deserialize command:");
+            e.printStackTrace();
+        }
     };
+
 
     CancelCallback cancelCallback = consumerTag -> {
         System.out.println("Command consumer cancelled: " + consumerTag);
@@ -86,8 +92,7 @@ public class ServerMessageBus {
         try {
             var channel = connection.getChannel();
 
-            // TODO: EventMessage -> byte[] serialisieren (z.B. JSON)
-            byte[] body = new byte[0];
+            byte[] body = serializeEvent(event);
 
             String routingKey;
             if (event.getTargetClientId() != null) {
@@ -110,7 +115,7 @@ public class ServerMessageBus {
     }
 
 
-    /*======== hilfsmethoden ========*/
+    /*======== hilfsmethoden ========*/  
     private CommandMessage deserializeCommand(byte[] body) throws IOException {
         return objectMapper.readValue(body, CommandMessage.class);
     }
@@ -118,5 +123,6 @@ public class ServerMessageBus {
     private byte[] serializeEvent(EventMessage event) throws IOException {
         return objectMapper.writeValueAsBytes(event);
     }
+
 
 }

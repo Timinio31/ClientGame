@@ -59,11 +59,11 @@ public class ServerRabbitConnection {
         channel.exchangeDeclare(Topics.EXCHANGE_UPDATES, "topic",true);
 
         // Commands-Queue für diesen Room
-        this.commandQueueName = "server.commands.room" + config.getRoomId();
+        this.commandQueueName = "server.commands.room." + config.getRoomId();
         channel.queueDeclare(commandQueueName, true, false,false, null);
 
         //Binding: alle client inputs für den raum
-        String  routingKeyPattern = "room" + config.getRoomId() + ".client.*.input";
+        String  routingKeyPattern = "room." + config.getRoomId() + ".client.*.input";
         channel.queueBind(commandQueueName, Topics.EXCHANGE_INPUTS,routingKeyPattern);
     }
 

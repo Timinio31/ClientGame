@@ -1,4 +1,5 @@
 package com.tim.game.shared.DTOs.update;
+import com.tim.game.shared.DTOs.update.BuildingStateDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,9 @@ public class WorldSnapshotDto {
 
     private String roomId;
     private long tick;
+
+    private List<BuildingStateDto> buildings = new ArrayList<>();
+
 
     private List<PlayerStateDto> players = new ArrayList<>();
 
@@ -57,6 +61,18 @@ public class WorldSnapshotDto {
 
     public void addPlayer(PlayerStateDto playerState) {
         this.players.add(playerState);
+    }
+
+    public List<BuildingStateDto> getBuildings() { 
+        return buildings; 
+    }
+    
+    public void setBuildings(List<BuildingStateDto> buildings) { 
+        this.buildings = buildings; 
+    }
+    
+    public void addBuilding(BuildingStateDto b) { 
+        this.buildings.add(b); 
     }
 
     @Override
