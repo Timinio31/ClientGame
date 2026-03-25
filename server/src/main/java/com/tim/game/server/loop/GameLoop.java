@@ -99,8 +99,11 @@ public class GameLoop implements Runnable {
 
         // 4. Snapshot der Welt erzeugen
         WorldSnapshotDto snapshot = worldState.buildSnapshot();
-        System.out.println("[Server] SNAPSHOT tick=" + snapshot.getTick()
-        + " players=" + snapshot.getPlayers().size());
+        System.out.println("Snapshot tick=" + snapshot.getTick()
+        + " players=" + snapshot.getPlayers().size()
+        + " buildings=" + snapshot.getBuildings().size()
+        + " map=" + (snapshot.getMap() != null)
+        + " tiles=" + (snapshot.getMap() != null ? snapshot.getMap().getTiles().size() : 0));
 
 
         // 5. Snapshot in EventMessage packen und broadcasten

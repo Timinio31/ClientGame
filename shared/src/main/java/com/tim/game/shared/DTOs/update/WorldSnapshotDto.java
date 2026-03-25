@@ -18,6 +18,8 @@ public class WorldSnapshotDto {
 
     private String roomId;
     private long tick;
+    
+    private MapStateDto map;
 
     private List<BuildingStateDto> buildings = new ArrayList<>();
 
@@ -73,6 +75,14 @@ public class WorldSnapshotDto {
     
     public void addBuilding(BuildingStateDto b) { 
         this.buildings.add(b); 
+    }
+
+    public MapStateDto getMap() {
+        return map;
+    }
+
+    public void setMap(MapStateDto map){
+        this.map = map;
     }
 
     @Override

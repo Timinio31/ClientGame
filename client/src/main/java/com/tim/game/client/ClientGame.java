@@ -24,6 +24,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.tim.game.shared.DTOs.input.BuildInputDto;
 import com.tim.game.shared.DTOs.update.BuildingStateDto;
 
+import com.tim.game.client.render.WorldRenderer;
+
 
 public class ClientGame extends ApplicationAdapter {
     private OrthographicCamera camera;
@@ -117,8 +119,24 @@ public class ClientGame extends ApplicationAdapter {
         handleBuildInput();
         handleZoom();
 
-        // 3) Render latest snapshot
-        renderWorld(lastSnapshot.get());
+        // 3) Bildschirm löschen
+        Gdx.gl.glClearColor(0.08f, 0.08f, 0.10f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // 4) Kamera auf lokalen Spieler zentrieren
+        WorldSnapshotDto snapshot = lastSnapshot.get();
+        Vector2f localPlayerPos = WorldRenderer.getLocalPlayerPos(snapshot, cfg.clientId);
+
+        if (localPlayerPos != null) {
+            camera.position.set(localPlayerPos.getX(), localPlayerPos.getY(), 0f);
+        } else {
+            camera.position.set(16f, 16f, 0f);
+        }
+
+        camera.update();
+
+        // 5) Welt rendern
+        WorldRenderer.renderWorld(camera, shapes, snapshot, cfg.clientId);
     }
 
 
@@ -165,113 +183,6 @@ public class ClientGame extends ApplicationAdapter {
         }
     }
 
-
-
-    private Vector2f getLocalPlayerPos(WorldSnapshotDto snap) {
-        if (snap == null || snap.getPlayers() == null) return null;
-
-        for (PlayerStateDto player : snap.getPlayers()) {
-            if (!cfg.clientId.equals(player.getClientId())) continue;
-            if (player.getPosition() == null) return null;
-            return player.getPosition();
-        }
-        return null;
-    }
-
-    private void renderPlayers(ShapeRenderer shapes, WorldSnapshotDto snap) {
-        if (snap == null || snap.getPlayers() == null) return;
-
-        shapes.begin(ShapeRenderer.ShapeType.Filled);
-        shapes.setColor(Color.LIME);
-
-        for (PlayerStateDto player : snap.getPlayers()) {
-            if (player.getPosition() == null) continue;
-            float playerPostionX = player.getPosition().getX();
-            float playerPostionY = player.getPosition().getY();
-            shapes.circle(playerPostionX, playerPostionY, 0.6f, 24);
-        }
-
-        shapes.end();
-    }
-
-    private void renderBuildings(ShapeRenderer shapes, WorldSnapshotDto snap, float tileSize) {
-        if (snap == null || snap.getBuildings() == null) return;
-
-        shapes.begin(ShapeRenderer.ShapeType.Filled);
-        shapes.setColor(Color.ORANGE);
-
-        for (BuildingStateDto building : snap.getBuildings()) {
-            if (building.getPosition() == null) continue;
-
-            float cx = building.getPosition().getX();
-            float cy = building.getPosition().getY();
-            shapes.rect(cx - tileSize * 0.5f, cy - tileSize * 0.5f, tileSize, tileSize);
-        }
-
-        shapes.end();
-    }
-
-
-    private void renderGrid(OrthographicCamera camera, ShapeRenderer shapes, float tileSize) {
-        // Sichtbereich (approx)
-        float halfW = camera.viewportWidth * camera.zoom * 0.5f;
-        float halfH = camera.viewportHeight * camera.zoom * 0.5f;
-
-        float left   = camera.position.x - halfW;
-        float right  = camera.position.x + halfW;
-        float bottom = camera.position.y - halfH;
-        float top    = camera.position.y + halfH;
-
-        int startX = (int)Math.floor(left / tileSize) - 1;
-        int endX   = (int)Math.floor(right / tileSize) + 1;
-        int startY = (int)Math.floor(bottom / tileSize) - 1;
-        int endY   = (int)Math.floor(top / tileSize) + 1;
-
-        shapes.begin(ShapeRenderer.ShapeType.Line);
-        shapes.setColor(Color.DARK_GRAY);
-
-        // vertikale Linien
-        for (int x = startX; x <= endX; x++) {
-            float wx = x * tileSize;
-            shapes.line(wx, startY * tileSize, wx, endY * tileSize);
-        }
-
-        // horizontale Linien
-        for (int y = startY; y <= endY; y++) {
-            float wy = y * tileSize;
-            shapes.line(startX * tileSize, wy, endX * tileSize, wy);
-        }
-
-        shapes.end();
-    }
-
-
-    private void renderWorld(WorldSnapshotDto snap) {
-        Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // Kamera auf lokalen Spieler
-        Vector2f myPos = getLocalPlayerPos(snap);
-        float camX = (myPos != null) ? myPos.getX() : 0f;
-        float camY = (myPos != null) ? myPos.getY() : 0f;
-
-        camera.position.set(camX, camY, 0f);
-        camera.update();
-
-        shapes.setProjectionMatrix(camera.combined);
-
-        // 1) Grid
-        renderGrid(camera, shapes, TILE_SIZE);
-
-        // 2) Buildings
-        renderBuildings(shapes, snap, TILE_SIZE);
-
-        // 3) Debug cross (optional)
-        renderDebugCross(shapes);
-
-        // 4) Players
-        renderPlayers(shapes, snap);
-    }
 
     private void renderDebugCross(ShapeRenderer shapes) {
         shapes.begin(ShapeRenderer.ShapeType.Filled);

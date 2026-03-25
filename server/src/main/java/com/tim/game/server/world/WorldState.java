@@ -12,6 +12,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tim.game.server.world.map.BasicProceduralMapGenerator;
+import com.tim.game.server.world.map.GeneratedMap;
+import com.tim.game.server.world.map.MapGenerator;
+import com.tim.game.server.world.map.MapTile;
+import com.tim.game.shared.DTOs.update.MapStateDto;
+import com.tim.game.shared.DTOs.update.TileStateDto;
+
+
 public class WorldState {
 
     private final String roomId;
@@ -30,9 +38,21 @@ public class WorldState {
     // tileKey -> buildingEntityId
     private final Map<String, EntityId> occupiedTiles = new HashMap<>();
 
+    private final GeneratedMap generatedMap;
+    private final MapGenerator mapGenerator = new BasicProceduralMapGenerator();
+
     public WorldState(String roomId) {
         this.roomId = roomId;
         this.tick = 0L;
+
+        long seed = Math.abs((long) roomId.hashCode());
+        this.generatedMap = mapGenerator.generate(roomId, 32, 32, TILE_SIZE, seed);
+        System.out.println("Generated map for room " + roomId
+        + " seed=" + generatedMap.getSeed()
+        + " size=" + generatedMap.getWidth() + "x" + generatedMap.getHeight()
+        + " spawns=" + generatedMap.getSpawnPoints().size());
+        System.out.println("Center tile: " +
+        generatedMap.getTile(generatedMap.getWidth() / 2, generatedMap.getHeight() / 2).getType());
     }
         public void incrementTick() {
         tick++;
@@ -98,9 +118,17 @@ public class WorldState {
         EntityState player = getPlayerEntity(clientId);
 
         if (player == null) {
-            spawnPlayerForClient(clientId, new Vector2f(0f, 0f)); // spawnt auf 0.5/0.5
+            Vector2f spawn = getDefaultSpawnPoint();
+            spawnPlayerForClient(clientId, spawn); // spawnt defualt
             player = getPlayerEntity(clientId);
-            if (player == null) return;
+
+            if (player == null) {
+                System.out.println("[Move] failed to spawn player for client=" + clientId);
+                return;
+            }
+            System.out.println("[Move] spawned player client=" + clientId
+                + " tile=(" + player.getTileX() + "," + player.getTileY() + ")"
+                + " worldPos=(" + player.getPosition().getX() + "," + player.getPosition().getY() + ")");
         }
 
         int playerX = (player.getTileX() != null) ? player.getTileX() : 0;
@@ -109,11 +137,33 @@ public class WorldState {
         int newPlayerX = playerX + directionX;
         int newPlayerY = playerY + directionY;
 
-        if (isTileBlocked(newPlayerX, newPlayerY)) return;
+        MapTile targetTile = generatedMap.getTile(newPlayerX, newPlayerY);
+
+
+        System.out.println("[Move] client=" + clientId
+            + " from=(" + playerX + "," + playerY + ")"
+            + " to=(" + newPlayerX + "," + newPlayerY + ")");
+
+        if (targetTile == null) {
+            System.out.println("[Move] blocked: target tile is null");
+            return;
+        }
+
+        System.out.println("[Move] target type=" + targetTile.getType()
+                + " walkable=" + targetTile.isWalkable()
+                + " occupied=" + occupiedTiles.containsKey(tileKey(newPlayerX, newPlayerY)));
+
+        if (isTileBlocked(newPlayerX, newPlayerY)) {
+            System.out.println("[Move] blocked");
+            return;
+        }
 
         player.setTileX(newPlayerX);
         player.setTileY(newPlayerY);
         player.setPosition(tileCenter(newPlayerX, newPlayerY));
+        
+        System.out.println("[Move] success -> tile=(" + newPlayerX + "," + newPlayerY + ")"
+            + " worldPos=(" + player.getPosition().getX() + "," + player.getPosition().getY() + ")");
     }
 
     /**
@@ -154,6 +204,10 @@ public class WorldState {
     }
 
     private boolean isTileBlocked(int tileX, int tileY) {
+        if( !generatedMap.isWalkable(tileX,tileY)){ // blockiert wasser, wände gebäude
+            return true;
+        }
+        
         return occupiedTiles.containsKey(tileKey(tileX, tileY));
     }
 
@@ -216,8 +270,41 @@ public class WorldState {
         WorldSnapshotDto snapshot = new WorldSnapshotDto();
         snapshot.setRoomId(roomId);
         snapshot.setTick(tick);
+        snapshot.setMap(buildMapState());
         snapshot.setPlayers(buildPlayerStateList());
         snapshot.setBuildings(buildBuildingStateList());
         return snapshot;
+    }
+
+    private MapStateDto buildMapState(){
+        MapStateDto dto = new MapStateDto(
+            generatedMap.getRoomId(),
+            generatedMap.getSeed(),
+            generatedMap.getWidth(),
+            generatedMap.getHeight(),
+            generatedMap.getTileSize()
+        );
+
+        for(int x = 0; x < generatedMap.getWidth(); x++){
+            for(int y = 0; y < generatedMap.getHeight(); y++){
+                MapTile tile = generatedMap.getTile(x,y);
+                if (tile == null) continue;
+
+                dto.addTile( new TileStateDto(
+                    tile.getX(),
+                    tile.getY(),
+                    tile.getType().name(),
+                    tile.isWalkable()
+                ));
+            }
+        }
+        return dto;
+    }
+
+    private Vector2f getDefaultSpawnPoint() {
+        if(!generatedMap.getSpawnPoints().isEmpty()){
+            return generatedMap.getSpawnPoints().get(0);
+        }
+        return new Vector2f(0.5f, 0.5f);
     }
 }
