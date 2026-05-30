@@ -15,6 +15,7 @@ public class WorldSnapshotDto {
 
     private List<PlayerStateDto> players = new ArrayList<>();
     private List<BuildingStateDto> buildings = new ArrayList<>();
+    private List<WorldItemStateDto> worldItems = new ArrayList<>();
 
     public WorldSnapshotDto() {
     }
@@ -24,6 +25,15 @@ public class WorldSnapshotDto {
         this.tick = tick;
         setPlayers(players);
         setBuildings(buildings);
+    }
+
+    public WorldSnapshotDto(String roomId,
+                            long tick,
+                            List<PlayerStateDto> players,
+                            List<BuildingStateDto> buildings,
+                            List<WorldItemStateDto> worldItems) {
+        this(roomId, tick, players, buildings);
+        setWorldItems(worldItems);
     }
 
     public String getRoomId() {
@@ -70,6 +80,21 @@ public class WorldSnapshotDto {
         }
     }
 
+
+    public List<WorldItemStateDto> getWorldItems() {
+        return worldItems;
+    }
+
+    public void setWorldItems(List<WorldItemStateDto> worldItems) {
+        this.worldItems = worldItems == null ? new ArrayList<>() : worldItems;
+    }
+
+    public void addWorldItem(WorldItemStateDto worldItem) {
+        if (worldItem != null) {
+            worldItems.add(worldItem);
+        }
+    }
+
     @Override
     public String toString() {
         return "WorldSnapshotDto{" +
@@ -77,6 +102,7 @@ public class WorldSnapshotDto {
                 ", tick=" + tick +
                 ", players=" + players.size() +
                 ", buildings=" + buildings.size() +
+                ", worldItems=" + worldItems.size() +
                 '}';
     }
 }

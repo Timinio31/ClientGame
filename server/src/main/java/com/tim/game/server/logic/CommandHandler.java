@@ -6,6 +6,7 @@ import com.tim.game.server.net.ServerMessageBus;
 import com.tim.game.server.world.WorldState;
 import com.tim.game.shared.DTOs.input.ActionInputDto;
 import com.tim.game.shared.DTOs.input.BuildInputDto;
+import com.tim.game.shared.DTOs.input.InventoryActionInputDto;
 import com.tim.game.shared.DTOs.input.MoveInputDto;
 import com.tim.game.shared.DTOs.update.MapInitDto;
 import com.tim.game.shared.messaging.CommandMessage;
@@ -95,6 +96,7 @@ public class CommandHandler {
             case MOVE -> handleMove(commandMessage);
             case ACTION -> handleAction(commandMessage);
             case BUILD -> handleBuild(commandMessage);
+            case INVENTORY -> handleInventory(commandMessage);
             default -> System.out.println("Unhandled command type: " + type + " commandMessage=" + commandMessage);
         }
     }
@@ -137,6 +139,20 @@ public class CommandHandler {
             System.out.println("[Server] BUILD rejected by " + commandMessage.getClientId() + ": " + input);
         } else {
             System.out.println("[Server] BUILD placed by " + commandMessage.getClientId() + ": " + input);
+        }
+    }
+
+
+    private void handleInventory(CommandMessage commandMessage) throws IOException {
+        InventoryActionInputDto input = objectMapper.readValue(commandMessage.getPayloadJson(), InventoryActionInputDto.class);
+        String action = input.getAction() == null ? "" : input.getAction().trim().toUpperCase();
+
+        switch (action) {
+            case "SELECT_SLOT" -> worldState.selectInventorySlot(commandMessage.getClientId(), input.getSlotIndex());
+            case "USE_SELECTED" -> worldState.useSelectedInventoryItem(commandMessage.getClientId());
+            case "DROP_SELECTED" -> worldState.dropSelectedInventoryItem(commandMessage.getClientId(), input.getAmount());
+            case "PICKUP_NEAREST" -> worldState.pickupNearestWorldItem(commandMessage.getClientId());
+            default -> System.out.println("Unhandled inventory action: " + action + " from " + commandMessage.getClientId());
         }
     }
 

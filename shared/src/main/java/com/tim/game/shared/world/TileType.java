@@ -5,4 +5,7 @@ public enum TileType {
     WATER,
     WALL,
     SPAWN,
+    FOREST,
+    MOUNTAIN,
+    ROAD,
 }

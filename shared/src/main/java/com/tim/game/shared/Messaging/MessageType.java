@@ -10,6 +10,7 @@ public enum MessageType {
     MOVE,
     ACTION,
     BUILD,
+    INVENTORY,
     MINE,
     CAPTURE,
     SUMMON,

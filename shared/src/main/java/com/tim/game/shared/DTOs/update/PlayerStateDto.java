@@ -2,6 +2,9 @@ package com.tim.game.shared.DTOs.update;
 import com.tim.game.shared.model.EntityType;
 import com.tim.game.shared.model.Vector2f;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * repräsentiert den zustand eines spielers, den der server an CLients schickt
  * bsp: Entity-id, position , zu welchen client er gehört...
@@ -22,6 +25,9 @@ public class PlayerStateDto {
 
     private float stamina;
     private float maxStamina;
+
+    private List<InventorySlotDto> inventorySlots = new ArrayList<>();
+    private int selectedInventorySlot;
 
     public PlayerStateDto(){}
 
@@ -100,6 +106,23 @@ public class PlayerStateDto {
         this.maxStamina = maxStamina;
     }
 
+
+    public List<InventorySlotDto> getInventorySlots() {
+        return inventorySlots;
+    }
+
+    public void setInventorySlots(List<InventorySlotDto> inventorySlots) {
+        this.inventorySlots = inventorySlots == null ? new ArrayList<>() : inventorySlots;
+    }
+
+    public int getSelectedInventorySlot() {
+        return selectedInventorySlot;
+    }
+
+    public void setSelectedInventorySlot(int selectedInventorySlot) {
+        this.selectedInventorySlot = selectedInventorySlot;
+    }
+
     @Override
     public String toString() {
         return "PlayerStateDto{" +
@@ -111,6 +134,8 @@ public class PlayerStateDto {
                 ", maxHealth=" + maxHealth +
                 ", stamina=" + stamina +
                 ", maxStamina=" + maxStamina +
+                ", inventorySlots=" + inventorySlots.size() +
+                ", selectedInventorySlot=" + selectedInventorySlot +
                 '}';
     }
 }
