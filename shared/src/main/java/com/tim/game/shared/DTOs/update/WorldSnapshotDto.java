@@ -1,40 +1,29 @@
 package com.tim.game.shared.DTOs.update;
-import com.tim.game.shared.DTOs.update.BuildingStateDto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Speichert die ganze welt, mit allen entitys zu einem bestimmen zeitpunkt
- * beinhaltet roomId, tick, und Zustand aller spieler
- * 
- * 
- */
-/**
- * Snapshot der Welt für einen bestimmten Tick.
- * Zunächst nur mit Spielerzuständen, später erweiterbar um Monster, Gebäude etc.
+ * Dynamischer Snapshot der Welt für einen bestimmten Tick.
+ * Die statische Map ist bewusst nicht mehr enthalten.
+ * Sie wird einmalig über MessageType.MAP_INIT übertragen.
  */
 public class WorldSnapshotDto {
 
     private String roomId;
     private long tick;
-    
-    private MapStateDto map;
-
-    private List<BuildingStateDto> buildings = new ArrayList<>();
-
 
     private List<PlayerStateDto> players = new ArrayList<>();
+    private List<BuildingStateDto> buildings = new ArrayList<>();
 
     public WorldSnapshotDto() {
     }
 
-    public WorldSnapshotDto(String roomId, long tick, List<PlayerStateDto> players) {
+    public WorldSnapshotDto(String roomId, long tick, List<PlayerStateDto> players, List<BuildingStateDto> buildings) {
         this.roomId = roomId;
         this.tick = tick;
-        if (players != null) {
-            this.players = players;
-        }
+        setPlayers(players);
+        setBuildings(buildings);
     }
 
     public String getRoomId() {
@@ -58,31 +47,27 @@ public class WorldSnapshotDto {
     }
 
     public void setPlayers(List<PlayerStateDto> players) {
-        this.players = players;
+        this.players = players == null ? new ArrayList<>() : players;
     }
 
     public void addPlayer(PlayerStateDto playerState) {
-        this.players.add(playerState);
+        if (playerState != null) {
+            players.add(playerState);
+        }
     }
 
-    public List<BuildingStateDto> getBuildings() { 
-        return buildings; 
-    }
-    
-    public void setBuildings(List<BuildingStateDto> buildings) { 
-        this.buildings = buildings; 
-    }
-    
-    public void addBuilding(BuildingStateDto b) { 
-        this.buildings.add(b); 
+    public List<BuildingStateDto> getBuildings() {
+        return buildings;
     }
 
-    public MapStateDto getMap() {
-        return map;
+    public void setBuildings(List<BuildingStateDto> buildings) {
+        this.buildings = buildings == null ? new ArrayList<>() : buildings;
     }
 
-    public void setMap(MapStateDto map){
-        this.map = map;
+    public void addBuilding(BuildingStateDto building) {
+        if (building != null) {
+            buildings.add(building);
+        }
     }
 
     @Override
@@ -90,7 +75,8 @@ public class WorldSnapshotDto {
         return "WorldSnapshotDto{" +
                 "roomId='" + roomId + '\'' +
                 ", tick=" + tick +
-                ", players=" + players +
+                ", players=" + players.size() +
+                ", buildings=" + buildings.size() +
                 '}';
     }
 }

@@ -5,6 +5,8 @@ import com.tim.game.server.logic.CommandHandler;
 import com.tim.game.server.net.ServerMessageBus;
 import com.tim.game.server.world.WorldState;
 import com.tim.game.shared.DTOs.update.WorldSnapshotDto;
+import com.tim.game.shared.debug.DebugCategory;
+import com.tim.game.shared.debug.DebugConfig;
 import com.tim.game.shared.messaging.CommandMessage;
 import com.tim.game.shared.messaging.EventMessage;
 import com.tim.game.shared.messaging.MessageType;
@@ -14,10 +16,10 @@ import java.util.List;
 /**
  * Einfacher GameLoop mit fester Tickrate.
  * Pro Tick:
- *  - Commands aus der Queue holen
- *  - auf den WorldState anwenden
- *  - Tick erhöhen
- *  - WorldSnapshot bauen und an alle Clients senden
+ * - Commands aus der Queue holen
+ * - auf den WorldState anwenden
+ * - Tick erhöhen
+ * - dynamischen WorldSnapshot bauen und an alle Clients senden
  */
 public class GameLoop implements Runnable {
 
@@ -40,9 +42,6 @@ public class GameLoop implements Runnable {
         this.running = false;
     }
 
-    /**
-     * Startet den GameLoop in einem eigenen Thread.
-     */
     public void start() {
         if (running) {
             return;
@@ -52,9 +51,6 @@ public class GameLoop implements Runnable {
         loopThread.start();
     }
 
-    /**
-     * Stoppt den GameLoop (sauberer Shutdown).
-     */
     public void stop() {
         running = false;
     }
@@ -79,40 +75,30 @@ public class GameLoop implements Runnable {
                 try {
                     Thread.sleep(sleepTime);
                 } catch (InterruptedException ignored) {
+                    Thread.currentThread().interrupt();
                 }
             }
         }
     }
 
-    /**
-     * Ein einzelner Simulations-Tick.
-     */
     private void step() throws Exception {
-        // 1. Commands vom MessageBus holen
         List<CommandMessage> commands = messageBus.pollCommands();
-
-        // 2. Commands auf WorldState anwenden
         commandHandler.applyCommands(commands);
 
-        // 3. Tick erhöhen
         worldState.incrementTick();
 
-        // 4. Snapshot der Welt erzeugen
-        WorldSnapshotDto snapshot = worldState.buildSnapshot();
-        System.out.println("Snapshot tick=" + snapshot.getTick()
-        + " players=" + snapshot.getPlayers().size()
-        + " buildings=" + snapshot.getBuildings().size()
-        + " map=" + (snapshot.getMap() != null)
-        + " tiles=" + (snapshot.getMap() != null ? snapshot.getMap().getTiles().size() : 0));
+        WorldSnapshotDto snapshot = worldState.buildDynamicSnapshot(worldState.getTick());
+        DebugConfig.log(DebugCategory.SNAPSHOT,
+                "Snapshot tick=" + snapshot.getTick()
+                        + " players=" + snapshot.getPlayers().size()
+                        + " buildings=" + snapshot.getBuildings().size());
 
-
-        // 5. Snapshot in EventMessage packen und broadcasten
         String payloadJson = objectMapper.writeValueAsString(snapshot);
 
         EventMessage event = new EventMessage(
                 MessageType.WORLD_SNAPSHOT,
                 worldState.getRoomId(),
-                null,              // null = Broadcast an alle in diesem Room
+                null,
                 payloadJson
         );
 

@@ -1,9 +1,13 @@
 package com.tim.game.server.net;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.CancelCallback;
 import com.rabbitmq.client.DeliverCallback;
+import com.tim.game.shared.DTOs.update.MapInitDto;
 import com.tim.game.shared.messaging.CommandMessage;
 import com.tim.game.shared.messaging.EventMessage;
+import com.tim.game.shared.messaging.MessageType;
 import com.tim.game.shared.messaging.Topics;
 
 import java.io.IOException;
@@ -12,16 +16,9 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-
 public class ServerMessageBus {
-    
-    //Verbindung + Channel + Queue-Name.
-    private final ServerRabbitConnection connection;
 
-    // Thread-sichere Queue für Commands aus RabbitMQ
+    private final ServerRabbitConnection connection;
     private final BlockingQueue<CommandMessage> commandQueue = new LinkedBlockingQueue<>();
     private final ObjectMapper objectMapper;
 
@@ -31,91 +28,76 @@ public class ServerMessageBus {
         this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
+    public void startConsumingCommands() throws IOException {
+        var channel = connection.getChannel();
+        String queueName = connection.getCommandQueueName();
 
-    /**Wir hängen uns mit einem Consumer an die Commands-Queue des Servers und legen jede eingehende Nachricht in unsere commandQueue.
-     * Später: hier wird aus byte[] → CommandMessage deserialisiert (JSON, etc.).
-     * Jetzt erstmal nur Struktur + TODO.
-     * Warum DeliverCallback?
-     *      RabbitMQ ruft diese Funktion jedes Mal auf, wenn eine Nachricht in der Queue landet.
-     *      Wir lesen delivery.getBody() und machen damit, was wir wollen.
-    */
+        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+            byte[] body = delivery.getBody();
 
+            try {
+                CommandMessage command = deserializeCommand(body);
+                commandQueue.offer(command);
 
-   /**update wenn clients senden */
-   public void startConsumingCommands() throws IOException{
-    var channel = connection.getChannel();
-    String queueName= connection.getCommandQueueName();
+                System.out.println("[Server] Received command: type=" + command.getType()
+                        + " room=" + command.getRoomId()
+                        + " client=" + command.getClientId());
+            } catch (Exception e) {
+                System.err.println("[Server] Failed to deserialize command:");
+                e.printStackTrace();
+            }
+        };
 
-    DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-        byte[] body = delivery.getBody();
+        CancelCallback cancelCallback = consumerTag ->
+                System.out.println("Command consumer cancelled: " + consumerTag);
 
-        try {
-            CommandMessage cmd = deserializeCommand(body);   // JSON -> CommandMessage
-            commandQueue.offer(cmd);                         // IMPORTANT: in Queue legen
+        channel.basicConsume(queueName, true, deliverCallback, cancelCallback);
+    }
 
-            System.out.println("[Server] Received command: type=" + cmd.getType()
-                    + " room=" + cmd.getRoomId()
-                    + " client=" + cmd.getClientId());
-        } catch (Exception e) {
-            System.err.println("[Server] Failed to deserialize command:");
-            e.printStackTrace();
-        }
-    };
-
-
-    CancelCallback cancelCallback = consumerTag -> {
-        System.out.println("Command consumer cancelled: " + consumerTag);
-    };
-
-    //autoAck = true (fürs erste ausreichend)
-    channel.basicConsume(queueName,true, deliverCallback,cancelCallback);
-   }
-
-
-
-    /**
-     * Wird im GameLoop aufgerufen, um alle seit dem letzten Tick eingegangenen Commands abzuholen.
-     */
     public List<CommandMessage> pollCommands() {
         List<CommandMessage> result = new ArrayList<>();
-        //verschiebt alles aus commandQueue in eine Liste und leert sie.
         commandQueue.drainTo(result);
         return result;
     }
 
-    //===============Server to client==============
-    
-    /**
-     * Sendet ein Event (z.B. Entity-Update oder World-Snapshot) an die passenden Clients.
-     */
     public void sendEvent(EventMessage event) {
         try {
             var channel = connection.getChannel();
-
             byte[] body = serializeEvent(event);
 
-            String routingKey;
-            if (event.getTargetClientId() != null) {
-                routingKey = Topics.clientPrivate(event.getRoomId(), event.getTargetClientId());
-            } else {
-                routingKey = Topics.roomBroadcast(event.getRoomId());
-            }
+            String routingKey = event.getTargetClientId() != null
+                    ? Topics.clientPrivate(event.getRoomId(), event.getTargetClientId())
+                    : Topics.roomBroadcast(event.getRoomId());
 
             channel.basicPublish(Topics.EXCHANGE_UPDATES, routingKey, null, body);
         } catch (Exception e) {
+            System.err.println("[Server] Failed to send event=" + event);
             e.printStackTrace();
         }
     }
 
-    /**
-     * Komfort-Methode, um z.B. regelmäßig den kompletten Weltzustand zu broadcasten.
-     */
+    public void sendMapInitToClient(String roomId, String clientId, MapInitDto mapInit) {
+        try {
+            String payloadJson = objectMapper.writeValueAsString(mapInit);
+
+            EventMessage event = new EventMessage(
+                    MessageType.MAP_INIT,
+                    roomId,
+                    clientId,
+                    payloadJson
+            );
+
+            sendEvent(event);
+        } catch (Exception e) {
+            System.err.println("[Server] Failed to send MAP_INIT to client=" + clientId + " room=" + roomId);
+            e.printStackTrace();
+        }
+    }
+
     public void broadcastRoomState(EventMessage worldSnapshotEvent) {
         sendEvent(worldSnapshotEvent);
     }
 
-
-    /*======== hilfsmethoden ========*/  
     private CommandMessage deserializeCommand(byte[] body) throws IOException {
         return objectMapper.readValue(body, CommandMessage.class);
     }
@@ -123,6 +105,4 @@ public class ServerMessageBus {
     private byte[] serializeEvent(EventMessage event) throws IOException {
         return objectMapper.writeValueAsBytes(event);
     }
-
-
 }

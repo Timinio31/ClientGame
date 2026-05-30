@@ -17,6 +17,7 @@ public enum MessageType {
     //..
 
     // Server → Client (Updates)
+    MAP_INIT,
     PLAYER_STATE,
     WORLD_SNAPSHOT,
     ENTITY_UPDATE,

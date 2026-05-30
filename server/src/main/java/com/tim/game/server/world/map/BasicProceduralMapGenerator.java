@@ -5,6 +5,9 @@ import com.tim.game.shared.world.TileType;
 
 import java.util.Random;
 
+import com.tim.game.shared.debug.DebugCategory;
+import com.tim.game.shared.debug.DebugConfig;
+
 public class BasicProceduralMapGenerator implements MapGenerator {
 
     @Override
@@ -55,11 +58,16 @@ public class BasicProceduralMapGenerator implements MapGenerator {
         addExtraSpawnIfWalkable(generatedMap, width / 4, (height * 3) / 4);
         addExtraSpawnIfWalkable(generatedMap, (width * 3) / 4, (height * 3) / 4);
 
-        System.out.println("Generated map for room " + roomId + " seed=" + seed
-        + " size=" + width + "x" + height + " spawns=" + generatedMap.getSpawnPoints().size());
-        System.out.println("Center tile: " + generatedMap.getTile(width / 2, height / 2).getType());
+       DebugConfig.log(DebugCategory.MAP,
+        "Generated map for room " + roomId + " seed=" + seed
+                + " size=" + width + "x" + height + " spawns=" + generatedMap.getSpawnPoints().size());
 
-        printMap(generatedMap);
+        DebugConfig.log(DebugCategory.MAP,
+                "Center tile: " + generatedMap.getTile(width / 2, height / 2).getType());
+
+        if (DebugConfig.isEnabled(DebugCategory.MAP)) {
+            printMap(generatedMap);
+        }
 
         return generatedMap;
     }

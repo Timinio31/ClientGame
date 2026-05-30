@@ -4,38 +4,51 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.tim.game.shared.DTOs.update.BuildingStateDto;
+import com.tim.game.shared.DTOs.update.MapInitDto;
 import com.tim.game.shared.DTOs.update.PlayerStateDto;
 import com.tim.game.shared.DTOs.update.TileStateDto;
 import com.tim.game.shared.DTOs.update.WorldSnapshotDto;
+import com.tim.game.shared.debug.DebugCategory;
+import com.tim.game.shared.debug.DebugConfig;
 import com.tim.game.shared.model.Vector2f;
 
 public final class WorldRenderer {
 
-    private static final float TILE_SIZE = 1.0f;
+    private static final float FALLBACK_TILE_SIZE = 1.0f;
     private static final float PLAYER_RADIUS = 0.30f;
 
     private WorldRenderer() {
     }
 
-    public static void renderWorld(OrthographicCamera camera, ShapeRenderer shapes, WorldSnapshotDto snapshot, String localClientId) {
-        // Hintergrund
+    public static void renderWorld(OrthographicCamera camera,
+                                   ShapeRenderer shapes,
+                                   MapInitDto mapInit,
+                                   WorldSnapshotDto snapshot,
+                                   String localClientId) {
         shapes.setProjectionMatrix(camera.combined);
 
-        renderTiles(camera, shapes, snapshot);
-        renderGrid(camera, shapes, TILE_SIZE);
-        renderBuildings(camera, shapes, snapshot);
+        renderTiles(camera, shapes, mapInit);
+
+        float tileSize = mapInit != null ? mapInit.getTileSize() : FALLBACK_TILE_SIZE;
+        if (DebugConfig.isEnabled(DebugCategory.RENDER)) {
+            renderGrid(camera, shapes, tileSize);
+        }
+
+        renderBuildings(camera, shapes, snapshot, tileSize);
         renderPlayers(camera, shapes, snapshot, localClientId);
     }
 
-    private static void renderTiles(OrthographicCamera camera, ShapeRenderer shapes, WorldSnapshotDto snapshot) {
-        if (snapshot == null || snapshot.getMap() == null || snapshot.getMap().getTiles() == null) {
+    private static void renderTiles(OrthographicCamera camera, ShapeRenderer shapes, MapInitDto mapInit) {
+        if (mapInit == null || mapInit.getTiles() == null) {
             return;
         }
+
+        float tileSize = mapInit.getTileSize() > 0f ? mapInit.getTileSize() : FALLBACK_TILE_SIZE;
 
         shapes.setProjectionMatrix(camera.combined);
         shapes.begin(ShapeRenderer.ShapeType.Filled);
 
-        for (TileStateDto tile : snapshot.getMap().getTiles()) {
+        for (TileStateDto tile : mapInit.getTiles()) {
             if (tile == null) {
                 continue;
             }
@@ -53,13 +66,16 @@ public final class WorldRenderer {
                 }
             }
 
-            shapes.rect(tile.getX(), tile.getY(), TILE_SIZE, TILE_SIZE);
+            shapes.rect(tile.getX() * tileSize, tile.getY() * tileSize, tileSize, tileSize);
         }
 
         shapes.end();
     }
 
-    private static void renderPlayers(OrthographicCamera camera, ShapeRenderer shapes, WorldSnapshotDto snapshot, String localClientId) {
+    private static void renderPlayers(OrthographicCamera camera,
+                                      ShapeRenderer shapes,
+                                      WorldSnapshotDto snapshot,
+                                      String localClientId) {
         if (snapshot == null || snapshot.getPlayers() == null) {
             return;
         }
@@ -73,12 +89,7 @@ public final class WorldRenderer {
             }
 
             boolean isLocalPlayer = localClientId != null && localClientId.equals(player.getClientId());
-
-            if (isLocalPlayer) {
-                shapes.setColor(Color.LIME);
-            } else {
-                shapes.setColor(Color.RED);
-            }
+            shapes.setColor(isLocalPlayer ? Color.LIME : Color.RED);
 
             float x = player.getPosition().getX();
             float y = player.getPosition().getY();
@@ -88,7 +99,10 @@ public final class WorldRenderer {
         shapes.end();
     }
 
-    private static void renderBuildings(OrthographicCamera camera, ShapeRenderer shapes, WorldSnapshotDto snapshot) {
+    private static void renderBuildings(OrthographicCamera camera,
+                                        ShapeRenderer shapes,
+                                        WorldSnapshotDto snapshot,
+                                        float tileSize) {
         if (snapshot == null || snapshot.getBuildings() == null) {
             return;
         }
@@ -104,8 +118,7 @@ public final class WorldRenderer {
 
             float centerX = building.getPosition().getX();
             float centerY = building.getPosition().getY();
-
-            shapes.rect(centerX - TILE_SIZE * 0.5f, centerY - TILE_SIZE * 0.5f, TILE_SIZE, TILE_SIZE);
+            shapes.rect(centerX - tileSize * 0.5f, centerY - tileSize * 0.5f, tileSize, tileSize);
         }
 
         shapes.end();
@@ -143,7 +156,7 @@ public final class WorldRenderer {
     }
 
     public static Vector2f getLocalPlayerPos(WorldSnapshotDto snapshot, String localClientId) {
-        if (snapshot == null || snapshot.getPlayers() == null) {
+        if (snapshot == null || snapshot.getPlayers() == null || localClientId == null) {
             return null;
         }
 
