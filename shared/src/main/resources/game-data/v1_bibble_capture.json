@@ -1,0 +1,13 @@
+{
+  "note": "Capture mechanics mirror the first server implementation in BibbleManager.",
+  "formula": "score = 35 + captureItemModifier + woundedBonus + relationshipBonus - baseDifficulty * 0.35",
+  "modifiers": {
+    "BASIC_CAPTURE_NET": 10,
+    "BASIC_TRAP": 16,
+    "SLEEP_DART": 22,
+    "BIBBLE_LEASH": 3,
+    "BIBBLE_FOOD": 5
+  },
+  "failure_behavior_v1": "Consumes selected capture item and reduces fear/love by 5.",
+  "success_behavior_v1": "If team has space, Bibble becomes active. Otherwise it goes to terminal storage."
+}

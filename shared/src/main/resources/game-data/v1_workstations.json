@@ -1,0 +1,10 @@
+{
+  "note": "Workstation IDs used by WorkstationCatalog and placeable item buildType mappings.",
+  "storage": ["STORAGE_BOX", "BIBBLE_TERMINAL"],
+  "crafting": ["WORKBENCH", "FURNACE", "BURNER_FURNACE", "HIGH_PERFORMANCE_FURNACE", "PROCESSOR"],
+  "power_sources": ["WATER_WHEEL", "WIND_WHEEL", "BURNER_FURNACE"],
+  "power_network": ["GENERATOR", "BASIC_CABLE"],
+  "fluid_network": ["PUMP", "LAVA_PUMP", "OIL_PUMP", "BASIC_PIPE"],
+  "automation": ["CROP_FARMER", "QUARRY"],
+  "upgrade_policy": "Every workstation should later expose upgrade slots. Pump variants currently exist as separate placeables but are intended to be upgrade states."
+}

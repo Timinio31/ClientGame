@@ -1,0 +1,57 @@
+{
+  "style": "Nintendo DS/DSi RPG, Pokemon Gen 4 inspired 2.5D pixel look",
+  "texture_pack_id": "midcentury_platinum",
+  "tiles": [
+    "grass",
+    "water_0",
+    "water_1",
+    "water_2",
+    "wall",
+    "spawn",
+    "forest",
+    "mountain",
+    "road",
+    "indoor",
+    "bibble_free_area",
+    "bibble_spawn_area",
+    "farmland"
+  ],
+  "item_count": 113,
+  "entity_png_count": 1623,
+  "player_actions": [
+    "idle",
+    "walk",
+    "attack",
+    "flee",
+    "use",
+    "hurt"
+  ],
+  "bibble_actions": [
+    "idle",
+    "walk",
+    "attack",
+    "flee",
+    "hurt",
+    "capture"
+  ],
+  "bibble_types": [
+    "normal",
+    "fire",
+    "water",
+    "nature",
+    "stone",
+    "metal",
+    "electric",
+    "psychic",
+    "shadow",
+    "light",
+    "machine",
+    "toxic",
+    "ice"
+  ],
+  "notes": [
+    "Current renderer uses idle/walk for player and idle/walk/attack/flee/hurt for Bibbles after this patch.",
+    "Use nearest-neighbor filtering; files are designed as crisp pixel sprites.",
+    "Additional action sheets are included for later combat/capture implementation."
+  ]
+}

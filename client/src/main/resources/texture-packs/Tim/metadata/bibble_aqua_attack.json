@@ -1,0 +1,25 @@
+{
+  "id": "bibble_aqua_attack",
+  "type": "entity_animation",
+  "entity": "bibble_aqua",
+  "action": "attack",
+  "file": "entities/bibbles/bibble_aqua_attack_sheet.png",
+  "frame_size": [
+    32,
+    32
+  ],
+  "directions": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "frames_per_direction": 4,
+  "row_order": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "col_order": "frame_index"
+}

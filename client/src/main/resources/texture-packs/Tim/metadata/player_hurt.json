@@ -1,0 +1,25 @@
+{
+  "id": "player_hurt",
+  "type": "entity_animation",
+  "entity": "player",
+  "action": "hurt",
+  "file": "entities/player/player_hurt_sheet.png",
+  "frame_size": [
+    32,
+    48
+  ],
+  "directions": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "frames_per_direction": 2,
+  "row_order": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "col_order": "frame_index"
+}

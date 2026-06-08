@@ -1,0 +1,20 @@
+{
+  "note": "Design mirror for CraftingCatalog. Runtime currently uses Java catalog.",
+  "loop": "collect -> inventory craft -> build workbench/storage -> craft tools/capture items -> capture Bibble -> build machines/power/fluid network",
+  "inventory_recipes": [
+    "ROPE_FROM_FIBERS", "PLANKS_FROM_WOOD", "STICKS_FROM_WOOD", "PRIMITIVE_TOOL",
+    "STONE_CLUB", "STONE_SPEAR", "SIMPLE_MEAL", "WORKBENCH_KIT", "STORAGE_BOX_KIT",
+    "WOOD_WALL_KIT", "WOOD_FENCE_KIT", "FARMLAND_KIT", "DIRT_BLOCK_KIT"
+  ],
+  "workbench_recipes": [
+    "PICKAXE", "AXE", "SHOVEL", "HAMMER", "WRENCH", "EMPTY_BUCKET",
+    "BASIC_CAPTURE_NET", "BASIC_TRAP", "BIBBLE_LEASH", "BIBBLE_FOOD",
+    "FURNACE_KIT", "GENERATOR_KIT", "BIBBLE_TERMINAL_KIT", "PUMP_KIT",
+    "CROP_FARMER_KIT", "QUARRY_KIT", "WATER_WHEEL_KIT", "WIND_WHEEL_KIT"
+  ],
+  "machine_recipes": [
+    "IRON_INGOT_FROM_ORE", "COPPER_INGOT_FROM_ORE", "COPPER_WIRE", "IRON_PLATE",
+    "BASIC_CABLE", "BASIC_PIPE", "PROCESSOR_KIT", "BURNER_FURNACE_KIT",
+    "HIGH_PERFORMANCE_FURNACE_KIT", "LAVA_PUMP_KIT", "OIL_PUMP_KIT"
+  ]
+}

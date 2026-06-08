@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.tim.game.client.ClientGame;
-import com.tim.game.client.net.ClientConfig;
 import com.tim.game.client.ui.MenuButton;
 
 public class MainMenuScreen extends AbstractMenuScreen {
@@ -24,7 +23,7 @@ public class MainMenuScreen extends AbstractMenuScreen {
 
         buttons.clear();
         buttons.add(new MenuButton(x, startY, width, height, "Play Local", () ->
-                game.startGame(ClientConfig.localDefault(ClientGame.newClientId()))));
+                game.setScreen(new LocalWorldsScreen(game))));
         buttons.add(new MenuButton(x, startY - gap, width, height, "Play Multiplayer", () ->
                 game.setScreen(new MultiplayerMenuScreen(game))));
         buttons.add(new MenuButton(x, startY - gap * 2, width, height, "Settings", game::showSettings));

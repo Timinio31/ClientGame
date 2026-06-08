@@ -1,0 +1,4167 @@
+{
+  "project": "ClientGame DS-style asset pass",
+  "style": "Nintendo DS / DSi RPG inspired hybrid 2D/2.5D: hard pixels, limited saturated palette, chibi entity sprites, 32px grid.",
+  "generated_at": "2026-06-05",
+  "tile_size": [
+    32,
+    32
+  ],
+  "item_icon_size": [
+    32,
+    32
+  ],
+  "player_frame_size": [
+    32,
+    48
+  ],
+  "bibble_frame_size": [
+    32,
+    32
+  ],
+  "asset_count": 198,
+  "assets": [
+    {
+      "id": "grass_tile",
+      "type": "tile",
+      "file": "tiles/grass_tile.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "tall_grass_tile",
+      "type": "tile",
+      "file": "tiles/tall_grass_tile.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "dirt_path_tile",
+      "type": "tile",
+      "file": "tiles/dirt_path_tile.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "sand_tile",
+      "type": "tile",
+      "file": "tiles/sand_tile.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "stone_path_tile",
+      "type": "tile",
+      "file": "tiles/stone_path_tile.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "mud_tile",
+      "type": "tile",
+      "file": "tiles/mud_tile.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "wood_floor_tile",
+      "type": "tile",
+      "file": "tiles/wood_floor_tile.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "stone_floor_tile",
+      "type": "tile",
+      "file": "tiles/stone_floor_tile.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "farmland_tile",
+      "type": "tile",
+      "file": "tiles/farmland_tile.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "flower_bed_tile",
+      "type": "tile",
+      "file": "tiles/flower_bed_tile.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "water_tile",
+      "type": "tile",
+      "file": "tiles/water_tile.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "shallow_water_tile",
+      "type": "tile",
+      "file": "tiles/shallow_water_tile.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "wood_log",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/wood_log.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "stick",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/stick.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "stone",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/stone.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "flint",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/flint.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "plant_fiber",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/plant_fiber.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "grass_bundle",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/grass_bundle.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "vine",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/vine.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "leaf",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/leaf.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "clay",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/clay.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "sand_pile",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/sand_pile.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "coal",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/coal.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "iron_ore",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/iron_ore.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "copper_ore",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/copper_ore.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "crystal",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/crystal.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "water_flask",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/water_flask.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "apple",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/apple.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "red_berry",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/red_berry.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "green_herb",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/green_herb.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "mushroom",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/mushroom.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "feather",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/feather.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "bone",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/bone.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "hide",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/hide.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "raw_meat",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/raw_meat.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "fish",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/fish.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "egg",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/egg.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "resin",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/resin.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "oil",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/oil.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "salt",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/salt.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "seed",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/seed.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "blue_flower",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/blue_flower.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "red_flower",
+      "type": "item",
+      "category": "resources",
+      "file": "items/resources/red_flower.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "rope",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/rope.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "wood_plank",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/wood_plank.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "brick",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/brick.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "metal_bar",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/metal_bar.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "glass_shard",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/glass_shard.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "cloth",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/cloth.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "leather",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/leather.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "paper",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/paper.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "nail",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/nail.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "gear",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/gear.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "simple_battery",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/simple_battery.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "bandage",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/bandage.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "cooked_meat",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/cooked_meat.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "healing_potion",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/healing_potion.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "bait",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/bait.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "bibble_feed",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/bibble_feed.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "basic_trap",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/basic_trap.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "net_trap",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/net_trap.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "cage_trap",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/cage_trap.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "capture_orb",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/capture_orb.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "backpack",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/backpack.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "torch",
+      "type": "item",
+      "category": "crafted",
+      "file": "items/crafted/torch.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "stone_axe",
+      "type": "item",
+      "category": "tools_weapons",
+      "file": "items/tools_weapons/stone_axe.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "wooden_spear",
+      "type": "item",
+      "category": "tools_weapons",
+      "file": "items/tools_weapons/wooden_spear.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "stone_sword",
+      "type": "item",
+      "category": "tools_weapons",
+      "file": "items/tools_weapons/stone_sword.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "wooden_club",
+      "type": "item",
+      "category": "tools_weapons",
+      "file": "items/tools_weapons/wooden_club.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "building_hammer",
+      "type": "item",
+      "category": "tools_weapons",
+      "file": "items/tools_weapons/building_hammer.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "pickaxe",
+      "type": "item",
+      "category": "tools_weapons",
+      "file": "items/tools_weapons/pickaxe.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "shovel",
+      "type": "item",
+      "category": "tools_weapons",
+      "file": "items/tools_weapons/shovel.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "fishing_rod",
+      "type": "item",
+      "category": "tools_weapons",
+      "file": "items/tools_weapons/fishing_rod.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "watering_can",
+      "type": "item",
+      "category": "tools_weapons",
+      "file": "items/tools_weapons/watering_can.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "id": "wood_wall",
+      "type": "block",
+      "file": "blocks/wood_wall.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "stone_wall",
+      "type": "block",
+      "file": "blocks/stone_wall.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "brick_wall",
+      "type": "block",
+      "file": "blocks/brick_wall.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "metal_wall",
+      "type": "block",
+      "file": "blocks/metal_wall.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "glass_wall",
+      "type": "block",
+      "file": "blocks/glass_wall.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "clay_block",
+      "type": "block",
+      "file": "blocks/clay_block.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "roof_red",
+      "type": "block",
+      "file": "blocks/roof_red.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "roof_blue",
+      "type": "block",
+      "file": "blocks/roof_blue.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "wooden_bridge",
+      "type": "block",
+      "file": "blocks/wooden_bridge.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "stairs_stone",
+      "type": "block",
+      "file": "blocks/stairs_stone.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "fence",
+      "type": "block",
+      "file": "blocks/fence.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "gate",
+      "type": "block",
+      "file": "blocks/gate.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "door",
+      "type": "block",
+      "file": "blocks/door.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "window",
+      "type": "block",
+      "file": "blocks/window.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "sign",
+      "type": "block",
+      "file": "blocks/sign.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "lamp_post",
+      "type": "block",
+      "file": "blocks/lamp_post.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "wood_post",
+      "type": "block",
+      "file": "blocks/wood_post.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "stone_pillar",
+      "type": "block",
+      "file": "blocks/stone_pillar.png",
+      "size": [
+        32,
+        40
+      ]
+    },
+    {
+      "id": "workbench",
+      "type": "workstation",
+      "file": "workstations/workbench.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "crafting_table",
+      "type": "workstation",
+      "file": "workstations/crafting_table.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "furnace",
+      "type": "workstation",
+      "file": "workstations/furnace.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "campfire",
+      "type": "workstation",
+      "file": "workstations/campfire.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "storage_box",
+      "type": "workstation",
+      "file": "workstations/storage_box.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "global_storage_box",
+      "type": "workstation",
+      "file": "workstations/global_storage_box.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "terminal",
+      "type": "workstation",
+      "file": "workstations/terminal.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "enclosure",
+      "type": "workstation",
+      "file": "workstations/enclosure.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "trap_station",
+      "type": "workstation",
+      "file": "workstations/trap_station.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "cooking_pot",
+      "type": "workstation",
+      "file": "workstations/cooking_pot.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "sawmill",
+      "type": "workstation",
+      "file": "workstations/sawmill.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "grinder",
+      "type": "workstation",
+      "file": "workstations/grinder.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "smelter",
+      "type": "workstation",
+      "file": "workstations/smelter.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "loom",
+      "type": "workstation",
+      "file": "workstations/loom.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "research_table",
+      "type": "workstation",
+      "file": "workstations/research_table.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "generator",
+      "type": "workstation",
+      "file": "workstations/generator.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "water_well",
+      "type": "workstation",
+      "file": "workstations/water_well.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "greenhouse",
+      "type": "workstation",
+      "file": "workstations/greenhouse.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "anvil",
+      "type": "workstation",
+      "file": "workstations/anvil.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "alchemy_table",
+      "type": "workstation",
+      "file": "workstations/alchemy_table.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "drying_rack",
+      "type": "workstation",
+      "file": "workstations/drying_rack.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "market_stall",
+      "type": "workstation",
+      "file": "workstations/market_stall.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "bed",
+      "type": "workstation",
+      "file": "workstations/bed.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "forge",
+      "type": "workstation",
+      "file": "workstations/forge.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "kiln",
+      "type": "workstation",
+      "file": "workstations/kiln.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "planter_box",
+      "type": "workstation",
+      "file": "workstations/planter_box.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    {
+      "id": "small_house",
+      "type": "building",
+      "file": "buildings/small_house.png",
+      "size": [
+        64,
+        64
+      ]
+    },
+    {
+      "id": "storage_shed",
+      "type": "building",
+      "file": "buildings/storage_shed.png",
+      "size": [
+        64,
+        64
+      ]
+    },
+    {
+      "id": "guild_hall",
+      "type": "building",
+      "file": "buildings/guild_hall.png",
+      "size": [
+        64,
+        64
+      ]
+    },
+    {
+      "id": "bibble_stable",
+      "type": "building",
+      "file": "buildings/bibble_stable.png",
+      "size": [
+        64,
+        64
+      ]
+    },
+    {
+      "id": "watchtower",
+      "type": "building",
+      "file": "buildings/watchtower.png",
+      "size": [
+        64,
+        64
+      ]
+    },
+    {
+      "id": "workshop_building",
+      "type": "building",
+      "file": "buildings/workshop_building.png",
+      "size": [
+        64,
+        64
+      ]
+    },
+    {
+      "id": "farm_house",
+      "type": "building",
+      "file": "buildings/farm_house.png",
+      "size": [
+        64,
+        64
+      ]
+    },
+    {
+      "id": "clinic",
+      "type": "building",
+      "file": "buildings/clinic.png",
+      "size": [
+        64,
+        64
+      ]
+    },
+    {
+      "id": "market_booth",
+      "type": "building",
+      "file": "buildings/market_booth.png",
+      "size": [
+        64,
+        64
+      ]
+    },
+    {
+      "id": "player_idle",
+      "type": "entity_animation",
+      "entity": "player",
+      "action": "idle",
+      "file": "entities/player/player_idle_sheet.png",
+      "frame_size": [
+        32,
+        48
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "player_walk",
+      "type": "entity_animation",
+      "entity": "player",
+      "action": "walk",
+      "file": "entities/player/player_walk_sheet.png",
+      "frame_size": [
+        32,
+        48
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "player_attack",
+      "type": "entity_animation",
+      "entity": "player",
+      "action": "attack",
+      "file": "entities/player/player_attack_sheet.png",
+      "frame_size": [
+        32,
+        48
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "player_flee",
+      "type": "entity_animation",
+      "entity": "player",
+      "action": "flee",
+      "file": "entities/player/player_flee_sheet.png",
+      "frame_size": [
+        32,
+        48
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "player_use",
+      "type": "entity_animation",
+      "entity": "player",
+      "action": "use",
+      "file": "entities/player/player_use_sheet.png",
+      "frame_size": [
+        32,
+        48
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 3,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "player_hurt",
+      "type": "entity_animation",
+      "entity": "player",
+      "action": "hurt",
+      "file": "entities/player/player_hurt_sheet.png",
+      "frame_size": [
+        32,
+        48
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "player_all_animations",
+      "type": "entity_animation_bundle",
+      "entity": "player",
+      "file": "entities/player/player_all_animations_sheet.png",
+      "frame_size": [
+        32,
+        48
+      ],
+      "rows": [
+        {
+          "row": 0,
+          "action": "idle",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 1,
+          "action": "idle",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 2,
+          "action": "idle",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 3,
+          "action": "idle",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 4,
+          "action": "walk",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 5,
+          "action": "walk",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 6,
+          "action": "walk",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 7,
+          "action": "walk",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 8,
+          "action": "attack",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 9,
+          "action": "attack",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 10,
+          "action": "attack",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 11,
+          "action": "attack",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 12,
+          "action": "flee",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 13,
+          "action": "flee",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 14,
+          "action": "flee",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 15,
+          "action": "flee",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 16,
+          "action": "use",
+          "direction": "down",
+          "frames": 3
+        },
+        {
+          "row": 17,
+          "action": "use",
+          "direction": "left",
+          "frames": 3
+        },
+        {
+          "row": 18,
+          "action": "use",
+          "direction": "right",
+          "frames": 3
+        },
+        {
+          "row": 19,
+          "action": "use",
+          "direction": "up",
+          "frames": 3
+        },
+        {
+          "row": 20,
+          "action": "hurt",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 21,
+          "action": "hurt",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 22,
+          "action": "hurt",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 23,
+          "action": "hurt",
+          "direction": "up",
+          "frames": 2
+        }
+      ]
+    },
+    {
+      "id": "bibble_sprout",
+      "type": "bibble_static",
+      "file": "entities/bibbles/bibble_sprout.png",
+      "size": [
+        32,
+        32
+      ],
+      "palette": [
+        [
+          95,
+          169,
+          77,
+          255
+        ],
+        [
+          157,
+          218,
+          110,
+          255
+        ]
+      ]
+    },
+    {
+      "id": "bibble_sprout_idle",
+      "type": "entity_animation",
+      "entity": "bibble_sprout",
+      "action": "idle",
+      "file": "entities/bibbles/bibble_sprout_idle_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_sprout_walk",
+      "type": "entity_animation",
+      "entity": "bibble_sprout",
+      "action": "walk",
+      "file": "entities/bibbles/bibble_sprout_walk_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_sprout_attack",
+      "type": "entity_animation",
+      "entity": "bibble_sprout",
+      "action": "attack",
+      "file": "entities/bibbles/bibble_sprout_attack_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_sprout_flee",
+      "type": "entity_animation",
+      "entity": "bibble_sprout",
+      "action": "flee",
+      "file": "entities/bibbles/bibble_sprout_flee_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_sprout_hurt",
+      "type": "entity_animation",
+      "entity": "bibble_sprout",
+      "action": "hurt",
+      "file": "entities/bibbles/bibble_sprout_hurt_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_sprout_capture",
+      "type": "entity_animation",
+      "entity": "bibble_sprout",
+      "action": "capture",
+      "file": "entities/bibbles/bibble_sprout_capture_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 3,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_sprout_all_animations",
+      "type": "entity_animation_bundle",
+      "entity": "bibble_sprout",
+      "file": "entities/bibbles/bibble_sprout_all_animations_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "rows": [
+        {
+          "row": 0,
+          "action": "idle",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 1,
+          "action": "idle",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 2,
+          "action": "idle",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 3,
+          "action": "idle",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 4,
+          "action": "walk",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 5,
+          "action": "walk",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 6,
+          "action": "walk",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 7,
+          "action": "walk",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 8,
+          "action": "attack",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 9,
+          "action": "attack",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 10,
+          "action": "attack",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 11,
+          "action": "attack",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 12,
+          "action": "flee",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 13,
+          "action": "flee",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 14,
+          "action": "flee",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 15,
+          "action": "flee",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 16,
+          "action": "hurt",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 17,
+          "action": "hurt",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 18,
+          "action": "hurt",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 19,
+          "action": "hurt",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 20,
+          "action": "capture",
+          "direction": "down",
+          "frames": 3
+        },
+        {
+          "row": 21,
+          "action": "capture",
+          "direction": "left",
+          "frames": 3
+        },
+        {
+          "row": 22,
+          "action": "capture",
+          "direction": "right",
+          "frames": 3
+        },
+        {
+          "row": 23,
+          "action": "capture",
+          "direction": "up",
+          "frames": 3
+        }
+      ]
+    },
+    {
+      "id": "bibble_ember",
+      "type": "bibble_static",
+      "file": "entities/bibbles/bibble_ember.png",
+      "size": [
+        32,
+        32
+      ],
+      "palette": [
+        [
+          233,
+          139,
+          54,
+          255
+        ],
+        [
+          217,
+          90,
+          71,
+          255
+        ]
+      ]
+    },
+    {
+      "id": "bibble_ember_idle",
+      "type": "entity_animation",
+      "entity": "bibble_ember",
+      "action": "idle",
+      "file": "entities/bibbles/bibble_ember_idle_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_ember_walk",
+      "type": "entity_animation",
+      "entity": "bibble_ember",
+      "action": "walk",
+      "file": "entities/bibbles/bibble_ember_walk_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_ember_attack",
+      "type": "entity_animation",
+      "entity": "bibble_ember",
+      "action": "attack",
+      "file": "entities/bibbles/bibble_ember_attack_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_ember_flee",
+      "type": "entity_animation",
+      "entity": "bibble_ember",
+      "action": "flee",
+      "file": "entities/bibbles/bibble_ember_flee_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_ember_hurt",
+      "type": "entity_animation",
+      "entity": "bibble_ember",
+      "action": "hurt",
+      "file": "entities/bibbles/bibble_ember_hurt_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_ember_capture",
+      "type": "entity_animation",
+      "entity": "bibble_ember",
+      "action": "capture",
+      "file": "entities/bibbles/bibble_ember_capture_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 3,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_ember_all_animations",
+      "type": "entity_animation_bundle",
+      "entity": "bibble_ember",
+      "file": "entities/bibbles/bibble_ember_all_animations_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "rows": [
+        {
+          "row": 0,
+          "action": "idle",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 1,
+          "action": "idle",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 2,
+          "action": "idle",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 3,
+          "action": "idle",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 4,
+          "action": "walk",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 5,
+          "action": "walk",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 6,
+          "action": "walk",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 7,
+          "action": "walk",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 8,
+          "action": "attack",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 9,
+          "action": "attack",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 10,
+          "action": "attack",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 11,
+          "action": "attack",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 12,
+          "action": "flee",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 13,
+          "action": "flee",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 14,
+          "action": "flee",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 15,
+          "action": "flee",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 16,
+          "action": "hurt",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 17,
+          "action": "hurt",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 18,
+          "action": "hurt",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 19,
+          "action": "hurt",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 20,
+          "action": "capture",
+          "direction": "down",
+          "frames": 3
+        },
+        {
+          "row": 21,
+          "action": "capture",
+          "direction": "left",
+          "frames": 3
+        },
+        {
+          "row": 22,
+          "action": "capture",
+          "direction": "right",
+          "frames": 3
+        },
+        {
+          "row": 23,
+          "action": "capture",
+          "direction": "up",
+          "frames": 3
+        }
+      ]
+    },
+    {
+      "id": "bibble_aqua",
+      "type": "bibble_static",
+      "file": "entities/bibbles/bibble_aqua.png",
+      "size": [
+        32,
+        32
+      ],
+      "palette": [
+        [
+          76,
+          164,
+          201,
+          255
+        ],
+        [
+          74,
+          126,
+          217,
+          255
+        ]
+      ]
+    },
+    {
+      "id": "bibble_aqua_idle",
+      "type": "entity_animation",
+      "entity": "bibble_aqua",
+      "action": "idle",
+      "file": "entities/bibbles/bibble_aqua_idle_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_aqua_walk",
+      "type": "entity_animation",
+      "entity": "bibble_aqua",
+      "action": "walk",
+      "file": "entities/bibbles/bibble_aqua_walk_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_aqua_attack",
+      "type": "entity_animation",
+      "entity": "bibble_aqua",
+      "action": "attack",
+      "file": "entities/bibbles/bibble_aqua_attack_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_aqua_flee",
+      "type": "entity_animation",
+      "entity": "bibble_aqua",
+      "action": "flee",
+      "file": "entities/bibbles/bibble_aqua_flee_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_aqua_hurt",
+      "type": "entity_animation",
+      "entity": "bibble_aqua",
+      "action": "hurt",
+      "file": "entities/bibbles/bibble_aqua_hurt_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_aqua_capture",
+      "type": "entity_animation",
+      "entity": "bibble_aqua",
+      "action": "capture",
+      "file": "entities/bibbles/bibble_aqua_capture_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 3,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_aqua_all_animations",
+      "type": "entity_animation_bundle",
+      "entity": "bibble_aqua",
+      "file": "entities/bibbles/bibble_aqua_all_animations_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "rows": [
+        {
+          "row": 0,
+          "action": "idle",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 1,
+          "action": "idle",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 2,
+          "action": "idle",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 3,
+          "action": "idle",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 4,
+          "action": "walk",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 5,
+          "action": "walk",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 6,
+          "action": "walk",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 7,
+          "action": "walk",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 8,
+          "action": "attack",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 9,
+          "action": "attack",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 10,
+          "action": "attack",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 11,
+          "action": "attack",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 12,
+          "action": "flee",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 13,
+          "action": "flee",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 14,
+          "action": "flee",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 15,
+          "action": "flee",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 16,
+          "action": "hurt",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 17,
+          "action": "hurt",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 18,
+          "action": "hurt",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 19,
+          "action": "hurt",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 20,
+          "action": "capture",
+          "direction": "down",
+          "frames": 3
+        },
+        {
+          "row": 21,
+          "action": "capture",
+          "direction": "left",
+          "frames": 3
+        },
+        {
+          "row": 22,
+          "action": "capture",
+          "direction": "right",
+          "frames": 3
+        },
+        {
+          "row": 23,
+          "action": "capture",
+          "direction": "up",
+          "frames": 3
+        }
+      ]
+    },
+    {
+      "id": "bibble_stone",
+      "type": "bibble_static",
+      "file": "entities/bibbles/bibble_stone.png",
+      "size": [
+        32,
+        32
+      ],
+      "palette": [
+        [
+          142,
+          146,
+          154,
+          255
+        ],
+        [
+          85,
+          90,
+          100,
+          255
+        ]
+      ]
+    },
+    {
+      "id": "bibble_stone_idle",
+      "type": "entity_animation",
+      "entity": "bibble_stone",
+      "action": "idle",
+      "file": "entities/bibbles/bibble_stone_idle_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_stone_walk",
+      "type": "entity_animation",
+      "entity": "bibble_stone",
+      "action": "walk",
+      "file": "entities/bibbles/bibble_stone_walk_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_stone_attack",
+      "type": "entity_animation",
+      "entity": "bibble_stone",
+      "action": "attack",
+      "file": "entities/bibbles/bibble_stone_attack_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_stone_flee",
+      "type": "entity_animation",
+      "entity": "bibble_stone",
+      "action": "flee",
+      "file": "entities/bibbles/bibble_stone_flee_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_stone_hurt",
+      "type": "entity_animation",
+      "entity": "bibble_stone",
+      "action": "hurt",
+      "file": "entities/bibbles/bibble_stone_hurt_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_stone_capture",
+      "type": "entity_animation",
+      "entity": "bibble_stone",
+      "action": "capture",
+      "file": "entities/bibbles/bibble_stone_capture_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 3,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_stone_all_animations",
+      "type": "entity_animation_bundle",
+      "entity": "bibble_stone",
+      "file": "entities/bibbles/bibble_stone_all_animations_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "rows": [
+        {
+          "row": 0,
+          "action": "idle",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 1,
+          "action": "idle",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 2,
+          "action": "idle",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 3,
+          "action": "idle",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 4,
+          "action": "walk",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 5,
+          "action": "walk",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 6,
+          "action": "walk",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 7,
+          "action": "walk",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 8,
+          "action": "attack",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 9,
+          "action": "attack",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 10,
+          "action": "attack",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 11,
+          "action": "attack",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 12,
+          "action": "flee",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 13,
+          "action": "flee",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 14,
+          "action": "flee",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 15,
+          "action": "flee",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 16,
+          "action": "hurt",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 17,
+          "action": "hurt",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 18,
+          "action": "hurt",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 19,
+          "action": "hurt",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 20,
+          "action": "capture",
+          "direction": "down",
+          "frames": 3
+        },
+        {
+          "row": 21,
+          "action": "capture",
+          "direction": "left",
+          "frames": 3
+        },
+        {
+          "row": 22,
+          "action": "capture",
+          "direction": "right",
+          "frames": 3
+        },
+        {
+          "row": 23,
+          "action": "capture",
+          "direction": "up",
+          "frames": 3
+        }
+      ]
+    },
+    {
+      "id": "bibble_shadow",
+      "type": "bibble_static",
+      "file": "entities/bibbles/bibble_shadow.png",
+      "size": [
+        32,
+        32
+      ],
+      "palette": [
+        [
+          93,
+          82,
+          117,
+          255
+        ],
+        [
+          46,
+          43,
+          62,
+          255
+        ]
+      ]
+    },
+    {
+      "id": "bibble_shadow_idle",
+      "type": "entity_animation",
+      "entity": "bibble_shadow",
+      "action": "idle",
+      "file": "entities/bibbles/bibble_shadow_idle_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_shadow_walk",
+      "type": "entity_animation",
+      "entity": "bibble_shadow",
+      "action": "walk",
+      "file": "entities/bibbles/bibble_shadow_walk_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_shadow_attack",
+      "type": "entity_animation",
+      "entity": "bibble_shadow",
+      "action": "attack",
+      "file": "entities/bibbles/bibble_shadow_attack_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_shadow_flee",
+      "type": "entity_animation",
+      "entity": "bibble_shadow",
+      "action": "flee",
+      "file": "entities/bibbles/bibble_shadow_flee_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_shadow_hurt",
+      "type": "entity_animation",
+      "entity": "bibble_shadow",
+      "action": "hurt",
+      "file": "entities/bibbles/bibble_shadow_hurt_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_shadow_capture",
+      "type": "entity_animation",
+      "entity": "bibble_shadow",
+      "action": "capture",
+      "file": "entities/bibbles/bibble_shadow_capture_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 3,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_shadow_all_animations",
+      "type": "entity_animation_bundle",
+      "entity": "bibble_shadow",
+      "file": "entities/bibbles/bibble_shadow_all_animations_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "rows": [
+        {
+          "row": 0,
+          "action": "idle",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 1,
+          "action": "idle",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 2,
+          "action": "idle",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 3,
+          "action": "idle",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 4,
+          "action": "walk",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 5,
+          "action": "walk",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 6,
+          "action": "walk",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 7,
+          "action": "walk",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 8,
+          "action": "attack",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 9,
+          "action": "attack",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 10,
+          "action": "attack",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 11,
+          "action": "attack",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 12,
+          "action": "flee",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 13,
+          "action": "flee",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 14,
+          "action": "flee",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 15,
+          "action": "flee",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 16,
+          "action": "hurt",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 17,
+          "action": "hurt",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 18,
+          "action": "hurt",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 19,
+          "action": "hurt",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 20,
+          "action": "capture",
+          "direction": "down",
+          "frames": 3
+        },
+        {
+          "row": 21,
+          "action": "capture",
+          "direction": "left",
+          "frames": 3
+        },
+        {
+          "row": 22,
+          "action": "capture",
+          "direction": "right",
+          "frames": 3
+        },
+        {
+          "row": 23,
+          "action": "capture",
+          "direction": "up",
+          "frames": 3
+        }
+      ]
+    },
+    {
+      "id": "bibble_spark",
+      "type": "bibble_static",
+      "file": "entities/bibbles/bibble_spark.png",
+      "size": [
+        32,
+        32
+      ],
+      "palette": [
+        [
+          232,
+          200,
+          75,
+          255
+        ],
+        [
+          233,
+          139,
+          54,
+          255
+        ]
+      ]
+    },
+    {
+      "id": "bibble_spark_idle",
+      "type": "entity_animation",
+      "entity": "bibble_spark",
+      "action": "idle",
+      "file": "entities/bibbles/bibble_spark_idle_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_spark_walk",
+      "type": "entity_animation",
+      "entity": "bibble_spark",
+      "action": "walk",
+      "file": "entities/bibbles/bibble_spark_walk_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_spark_attack",
+      "type": "entity_animation",
+      "entity": "bibble_spark",
+      "action": "attack",
+      "file": "entities/bibbles/bibble_spark_attack_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_spark_flee",
+      "type": "entity_animation",
+      "entity": "bibble_spark",
+      "action": "flee",
+      "file": "entities/bibbles/bibble_spark_flee_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_spark_hurt",
+      "type": "entity_animation",
+      "entity": "bibble_spark",
+      "action": "hurt",
+      "file": "entities/bibbles/bibble_spark_hurt_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_spark_capture",
+      "type": "entity_animation",
+      "entity": "bibble_spark",
+      "action": "capture",
+      "file": "entities/bibbles/bibble_spark_capture_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 3,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_spark_all_animations",
+      "type": "entity_animation_bundle",
+      "entity": "bibble_spark",
+      "file": "entities/bibbles/bibble_spark_all_animations_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "rows": [
+        {
+          "row": 0,
+          "action": "idle",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 1,
+          "action": "idle",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 2,
+          "action": "idle",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 3,
+          "action": "idle",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 4,
+          "action": "walk",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 5,
+          "action": "walk",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 6,
+          "action": "walk",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 7,
+          "action": "walk",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 8,
+          "action": "attack",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 9,
+          "action": "attack",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 10,
+          "action": "attack",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 11,
+          "action": "attack",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 12,
+          "action": "flee",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 13,
+          "action": "flee",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 14,
+          "action": "flee",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 15,
+          "action": "flee",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 16,
+          "action": "hurt",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 17,
+          "action": "hurt",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 18,
+          "action": "hurt",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 19,
+          "action": "hurt",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 20,
+          "action": "capture",
+          "direction": "down",
+          "frames": 3
+        },
+        {
+          "row": 21,
+          "action": "capture",
+          "direction": "left",
+          "frames": 3
+        },
+        {
+          "row": 22,
+          "action": "capture",
+          "direction": "right",
+          "frames": 3
+        },
+        {
+          "row": 23,
+          "action": "capture",
+          "direction": "up",
+          "frames": 3
+        }
+      ]
+    },
+    {
+      "id": "bibble_worker",
+      "type": "bibble_static",
+      "file": "entities/bibbles/bibble_worker.png",
+      "size": [
+        32,
+        32
+      ],
+      "palette": [
+        [
+          197,
+          138,
+          82,
+          255
+        ],
+        [
+          99,
+          65,
+          43,
+          255
+        ]
+      ]
+    },
+    {
+      "id": "bibble_worker_idle",
+      "type": "entity_animation",
+      "entity": "bibble_worker",
+      "action": "idle",
+      "file": "entities/bibbles/bibble_worker_idle_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_worker_walk",
+      "type": "entity_animation",
+      "entity": "bibble_worker",
+      "action": "walk",
+      "file": "entities/bibbles/bibble_worker_walk_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_worker_attack",
+      "type": "entity_animation",
+      "entity": "bibble_worker",
+      "action": "attack",
+      "file": "entities/bibbles/bibble_worker_attack_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_worker_flee",
+      "type": "entity_animation",
+      "entity": "bibble_worker",
+      "action": "flee",
+      "file": "entities/bibbles/bibble_worker_flee_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_worker_hurt",
+      "type": "entity_animation",
+      "entity": "bibble_worker",
+      "action": "hurt",
+      "file": "entities/bibbles/bibble_worker_hurt_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_worker_capture",
+      "type": "entity_animation",
+      "entity": "bibble_worker",
+      "action": "capture",
+      "file": "entities/bibbles/bibble_worker_capture_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 3,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_worker_all_animations",
+      "type": "entity_animation_bundle",
+      "entity": "bibble_worker",
+      "file": "entities/bibbles/bibble_worker_all_animations_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "rows": [
+        {
+          "row": 0,
+          "action": "idle",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 1,
+          "action": "idle",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 2,
+          "action": "idle",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 3,
+          "action": "idle",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 4,
+          "action": "walk",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 5,
+          "action": "walk",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 6,
+          "action": "walk",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 7,
+          "action": "walk",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 8,
+          "action": "attack",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 9,
+          "action": "attack",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 10,
+          "action": "attack",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 11,
+          "action": "attack",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 12,
+          "action": "flee",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 13,
+          "action": "flee",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 14,
+          "action": "flee",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 15,
+          "action": "flee",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 16,
+          "action": "hurt",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 17,
+          "action": "hurt",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 18,
+          "action": "hurt",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 19,
+          "action": "hurt",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 20,
+          "action": "capture",
+          "direction": "down",
+          "frames": 3
+        },
+        {
+          "row": 21,
+          "action": "capture",
+          "direction": "left",
+          "frames": 3
+        },
+        {
+          "row": 22,
+          "action": "capture",
+          "direction": "right",
+          "frames": 3
+        },
+        {
+          "row": 23,
+          "action": "capture",
+          "direction": "up",
+          "frames": 3
+        }
+      ]
+    },
+    {
+      "id": "bibble_glow",
+      "type": "bibble_static",
+      "file": "entities/bibbles/bibble_glow.png",
+      "size": [
+        32,
+        32
+      ],
+      "palette": [
+        [
+          66,
+          181,
+          168,
+          255
+        ],
+        [
+          155,
+          104,
+          204,
+          255
+        ]
+      ]
+    },
+    {
+      "id": "bibble_glow_idle",
+      "type": "entity_animation",
+      "entity": "bibble_glow",
+      "action": "idle",
+      "file": "entities/bibbles/bibble_glow_idle_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_glow_walk",
+      "type": "entity_animation",
+      "entity": "bibble_glow",
+      "action": "walk",
+      "file": "entities/bibbles/bibble_glow_walk_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_glow_attack",
+      "type": "entity_animation",
+      "entity": "bibble_glow",
+      "action": "attack",
+      "file": "entities/bibbles/bibble_glow_attack_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_glow_flee",
+      "type": "entity_animation",
+      "entity": "bibble_glow",
+      "action": "flee",
+      "file": "entities/bibbles/bibble_glow_flee_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 4,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_glow_hurt",
+      "type": "entity_animation",
+      "entity": "bibble_glow",
+      "action": "hurt",
+      "file": "entities/bibbles/bibble_glow_hurt_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 2,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_glow_capture",
+      "type": "entity_animation",
+      "entity": "bibble_glow",
+      "action": "capture",
+      "file": "entities/bibbles/bibble_glow_capture_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "directions": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "frames_per_direction": 3,
+      "row_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "col_order": "frame_index"
+    },
+    {
+      "id": "bibble_glow_all_animations",
+      "type": "entity_animation_bundle",
+      "entity": "bibble_glow",
+      "file": "entities/bibbles/bibble_glow_all_animations_sheet.png",
+      "frame_size": [
+        32,
+        32
+      ],
+      "rows": [
+        {
+          "row": 0,
+          "action": "idle",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 1,
+          "action": "idle",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 2,
+          "action": "idle",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 3,
+          "action": "idle",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 4,
+          "action": "walk",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 5,
+          "action": "walk",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 6,
+          "action": "walk",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 7,
+          "action": "walk",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 8,
+          "action": "attack",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 9,
+          "action": "attack",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 10,
+          "action": "attack",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 11,
+          "action": "attack",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 12,
+          "action": "flee",
+          "direction": "down",
+          "frames": 4
+        },
+        {
+          "row": 13,
+          "action": "flee",
+          "direction": "left",
+          "frames": 4
+        },
+        {
+          "row": 14,
+          "action": "flee",
+          "direction": "right",
+          "frames": 4
+        },
+        {
+          "row": 15,
+          "action": "flee",
+          "direction": "up",
+          "frames": 4
+        },
+        {
+          "row": 16,
+          "action": "hurt",
+          "direction": "down",
+          "frames": 2
+        },
+        {
+          "row": 17,
+          "action": "hurt",
+          "direction": "left",
+          "frames": 2
+        },
+        {
+          "row": 18,
+          "action": "hurt",
+          "direction": "right",
+          "frames": 2
+        },
+        {
+          "row": 19,
+          "action": "hurt",
+          "direction": "up",
+          "frames": 2
+        },
+        {
+          "row": 20,
+          "action": "capture",
+          "direction": "down",
+          "frames": 3
+        },
+        {
+          "row": 21,
+          "action": "capture",
+          "direction": "left",
+          "frames": 3
+        },
+        {
+          "row": 22,
+          "action": "capture",
+          "direction": "right",
+          "frames": 3
+        },
+        {
+          "row": 23,
+          "action": "capture",
+          "direction": "up",
+          "frames": 3
+        }
+      ]
+    }
+  ]
+}

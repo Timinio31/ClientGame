@@ -1,6 +1,7 @@
 package com.tim.game.shared.DTOs.update;
 
 import com.tim.game.shared.model.Vector2f;
+import com.tim.game.shared.config.WorldSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,9 @@ public class MapInitDto {
     private int height;
     private float tileSize;
     private long seed;
+    private int chunkSize = 32;
+    private boolean chunkStreamingEnabled = true;
+    private WorldSettings worldSettings = WorldSettings.defaults();
 
     private List<TileStateDto> tiles = new ArrayList<>();
     private List<Vector2f> spawnPoints = new ArrayList<>();
@@ -24,11 +28,20 @@ public class MapInitDto {
     }
 
     public MapInitDto(String roomId, int width, int height, float tileSize, long seed) {
+        this(roomId, width, height, tileSize, seed, WorldSettings.defaults());
+    }
+
+    public MapInitDto(String roomId, int width, int height, float tileSize, long seed, WorldSettings worldSettings) {
         this.roomId = roomId;
         this.width = width;
         this.height = height;
         this.tileSize = tileSize;
         this.seed = seed;
+        setWorldSettings(worldSettings);
+        if (this.worldSettings != null) {
+            this.chunkSize = this.worldSettings.getChunkSize();
+            this.chunkStreamingEnabled = this.worldSettings.isChunkStreamingEnabled();
+        }
     }
 
     public String getRoomId() {
@@ -69,6 +82,32 @@ public class MapInitDto {
 
     public void setSeed(long seed) {
         this.seed = seed;
+    }
+
+    public int getChunkSize() {
+        return chunkSize;
+    }
+
+    public void setChunkSize(int chunkSize) {
+        this.chunkSize = chunkSize;
+    }
+
+    public boolean isChunkStreamingEnabled() {
+        return chunkStreamingEnabled;
+    }
+
+    public void setChunkStreamingEnabled(boolean chunkStreamingEnabled) {
+        this.chunkStreamingEnabled = chunkStreamingEnabled;
+    }
+
+    public WorldSettings getWorldSettings() {
+        return worldSettings;
+    }
+
+    public void setWorldSettings(WorldSettings worldSettings) {
+        this.worldSettings = worldSettings == null ? WorldSettings.defaults() : worldSettings.normalizedCopy();
+        this.chunkSize = this.worldSettings.getChunkSize();
+        this.chunkStreamingEnabled = this.worldSettings.isChunkStreamingEnabled();
     }
 
     public List<TileStateDto> getTiles() {

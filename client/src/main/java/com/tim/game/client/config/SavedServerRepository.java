@@ -18,6 +18,7 @@ public class SavedServerRepository {
             .enable(SerializationFeature.INDENT_OUTPUT);
 
     private final Path saveFile;
+    private final WorldSettingsFileRepository worldSettingsFileRepository = new WorldSettingsFileRepository();
 
     public SavedServerRepository() {
         this(Path.of(System.getProperty("user.home"), ".clientgame", "saved-servers.json"));
@@ -57,6 +58,7 @@ public class SavedServerRepository {
         profiles.removeIf(existing -> existing.normalizedCopy().getConnectionKey().equals(normalized.getConnectionKey()));
         profiles.add(0, normalized);
         saveProfiles(profiles);
+        worldSettingsFileRepository.saveForRoom(normalized.getRoomId(), normalized.getWorldSettings());
     }
 
     public void clear() {

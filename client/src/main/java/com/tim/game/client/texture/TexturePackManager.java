@@ -170,6 +170,15 @@ public final class TexturePackManager {
             case "FOREST" -> getTexture(TextureKeys.TILE_FOREST);
             case "MOUNTAIN" -> getTexture(TextureKeys.TILE_MOUNTAIN);
             case "ROAD" -> getTexture(TextureKeys.TILE_ROAD);
+            case "INDOOR" -> getTexture("tile_indoor");
+            case "BIBBLE_FREE_AREA" -> getTexture("tile_bibble_free_area");
+            case "BIBBLE_SPAWN_AREA" -> getTexture("tile_bibble_spawn_area");
+            case "FARMLAND" -> getTexture("tile_farmland");
+            case "SAND", "BEACH" -> getTexture("tile_sand");
+            case "SWAMP" -> getTexture("tile_swamp");
+            case "SNOW" -> getTexture("tile_snow");
+            case "MAGMA" -> getTexture("tile_magma");
+            case "CLIFF", "PLATEAU" -> getTexture(TextureKeys.TILE_MOUNTAIN);
             case "GRASS" -> getTexture(TextureKeys.TILE_GRASS);
             default -> getTexture(TextureKeys.TILE_GRASS);
         };
@@ -199,7 +208,8 @@ public final class TexturePackManager {
             case "CITY_SHOP" -> getTexture(TextureKeys.BUILDING_CITY_SHOP);
             case "CITY_HALL" -> getTexture(TextureKeys.BUILDING_CITY_HALL);
             case "CITY_WAREHOUSE" -> getTexture(TextureKeys.BUILDING_CITY_WAREHOUSE);
-            default -> getTexture(TextureKeys.BUILDING_DEFAULT);
+            case "DEFAULT" -> getTexture(TextureKeys.BUILDING_DEFAULT);
+            default -> getTexture("building_" + type.toLowerCase(java.util.Locale.ROOT));
         };
     }
 
@@ -207,11 +217,18 @@ public final class TexturePackManager {
     public Texture getItemTexture(String itemType) {
         String type = ItemCatalog.normalizeType(itemType);
         return switch (type) {
+            case ItemCatalog.WOOD -> getTexture(TextureKeys.ITEM_WOOD);
             case ItemCatalog.STONE -> getTexture(TextureKeys.ITEM_STONE);
-            case ItemCatalog.BERRY -> getTexture(TextureKeys.ITEM_BERRY);
+            case ItemCatalog.BERRY, ItemCatalog.RED_BERRY, ItemCatalog.BLUE_BERRY, ItemCatalog.BITTER_BERRY -> getTexture(TextureKeys.ITEM_BERRY);
             case ItemCatalog.GENERATOR_KIT -> getTexture(TextureKeys.ITEM_GENERATOR_KIT);
-            default -> getTexture(TextureKeys.ITEM_WOOD);
+            default -> getTexture("item_" + type.toLowerCase(java.util.Locale.ROOT));
         };
+    }
+
+
+    public Texture getBibbleTexture(String bibbleType) {
+        String type = bibbleType == null || bibbleType.isBlank() ? "NORMAL" : bibbleType.trim().toUpperCase();
+        return getTexture("entity_bibble_" + type.toLowerCase());
     }
 
     public List<TexturePackDefinition> getAvailablePacks() {
@@ -244,6 +261,10 @@ public final class TexturePackManager {
         loadTexture(TextureKeys.TILE_FOREST, "tiles/forest.png");
         loadTexture(TextureKeys.TILE_MOUNTAIN, "tiles/mountain.png");
         loadTexture(TextureKeys.TILE_ROAD, "tiles/road.png");
+        loadTexture("tile_sand", "tiles/sand.png");
+        loadTexture("tile_swamp", "tiles/swamp.png");
+        loadTexture("tile_snow", "tiles/snow.png");
+        loadTexture("tile_magma", "tiles/magma.png");
 
         loadPlayerSet(true);
         loadPlayerSet(false);
@@ -378,6 +399,18 @@ public final class TexturePackManager {
         } else if (TextureKeys.TILE_ROAD.equals(key)) {
             fill(pixmap, new Color(0.68f, 0.57f, 0.40f, 1f));
             drawRoadDetail(pixmap);
+        } else if ("tile_sand".equals(key)) {
+            fill(pixmap, new Color(0.82f, 0.71f, 0.45f, 1f));
+            drawLinePattern(pixmap, new Color(0.96f, 0.86f, 0.58f, 1f));
+        } else if ("tile_swamp".equals(key)) {
+            fill(pixmap, new Color(0.24f, 0.38f, 0.25f, 1f));
+            drawLinePattern(pixmap, new Color(0.35f, 0.50f, 0.32f, 1f));
+        } else if ("tile_snow".equals(key)) {
+            fill(pixmap, new Color(0.82f, 0.88f, 0.92f, 1f));
+            drawLinePattern(pixmap, new Color(0.96f, 0.98f, 1.0f, 1f));
+        } else if ("tile_magma".equals(key)) {
+            fill(pixmap, new Color(0.28f, 0.16f, 0.14f, 1f));
+            drawLinePattern(pixmap, new Color(0.95f, 0.28f, 0.08f, 1f));
         } else if (key.startsWith("player_")) {
             fill(pixmap, new Color(0f, 0f, 0f, 0f));
             drawFallbackHero(pixmap, key.contains("remote"), key.contains("left") ? TextureKeys.DIR_LEFT : key.contains("right") ? TextureKeys.DIR_RIGHT : key.contains("up") ? TextureKeys.DIR_UP : TextureKeys.DIR_DOWN, key.contains("walk") ? (key.endsWith("_1") ? 1 : 0) : -1);

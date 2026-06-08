@@ -1,5 +1,7 @@
 package com.tim.game.shared.DTOs.update;
 
+import com.tim.game.shared.bibble.BibbleStateDto;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class WorldSnapshotDto {
     private List<PlayerStateDto> players = new ArrayList<>();
     private List<BuildingStateDto> buildings = new ArrayList<>();
     private List<WorldItemStateDto> worldItems = new ArrayList<>();
+    private List<BibbleStateDto> bibbles = new ArrayList<>();
 
     public WorldSnapshotDto() {
     }
@@ -95,6 +98,20 @@ public class WorldSnapshotDto {
         }
     }
 
+    public List<BibbleStateDto> getBibbles() {
+        return bibbles;
+    }
+
+    public void setBibbles(List<BibbleStateDto> bibbles) {
+        this.bibbles = bibbles == null ? new ArrayList<>() : bibbles;
+    }
+
+    public void addBibble(BibbleStateDto bibble) {
+        if (bibble != null) {
+            bibbles.add(bibble);
+        }
+    }
+
     @Override
     public String toString() {
         return "WorldSnapshotDto{" +
@@ -103,6 +120,7 @@ public class WorldSnapshotDto {
                 ", players=" + players.size() +
                 ", buildings=" + buildings.size() +
                 ", worldItems=" + worldItems.size() +
+                ", bibbles=" + bibbles.size() +
                 '}';
     }
 }

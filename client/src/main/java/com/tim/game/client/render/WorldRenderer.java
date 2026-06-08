@@ -14,12 +14,16 @@ import com.tim.game.shared.DTOs.update.PlayerStateDto;
 import com.tim.game.shared.DTOs.update.TileStateDto;
 import com.tim.game.shared.DTOs.update.WorldItemStateDto;
 import com.tim.game.shared.DTOs.update.WorldSnapshotDto;
+import com.tim.game.shared.bibble.BibbleStateDto;
 import com.tim.game.shared.debug.DebugCategory;
 import com.tim.game.shared.debug.DebugConfig;
 import com.tim.game.shared.model.Vector2f;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public final class WorldRenderer {
 
@@ -39,15 +43,17 @@ public final class WorldRenderer {
                                    SpriteBatch batch,
                                    MapInitDto mapInit,
                                    WorldSnapshotDto snapshot,
-                                   String localClientId) {
+                                   String localClientId,
+                                   Map<String, TileStateDto> streamedTiles) {
         float tileSize = mapInit != null && mapInit.getTileSize() > 0f ? mapInit.getTileSize() : FALLBACK_TILE_SIZE;
         animationClock += Gdx.graphics.getDeltaTime();
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        renderTiles(batch, mapInit, tileSize);
+        renderTiles(camera, batch, mapInit, streamedTiles, tileSize);
         renderWorldItems(batch, snapshot, tileSize);
         renderBuildings(batch, snapshot, tileSize);
+        renderBibbles(batch, snapshot, tileSize);
         renderPlayers(batch, snapshot, localClientId);
         batch.end();
 
@@ -56,20 +62,89 @@ public final class WorldRenderer {
         }
     }
 
-    private static void renderTiles(SpriteBatch batch, MapInitDto mapInit, float tileSize) {
-        if (mapInit == null || mapInit.getTiles() == null) {
+    private static void renderTiles(OrthographicCamera camera,
+                                    SpriteBatch batch,
+                                    MapInitDto mapInit,
+                                    Map<String, TileStateDto> streamedTiles,
+                                    float tileSize) {
+        if (mapInit == null) {
             return;
         }
 
+        int[] bounds = visibleTileBounds(camera, tileSize, 2);
         TexturePackManager texturePackManager = TexturePackManager.getInstance();
-        for (TileStateDto tile : mapInit.getTiles()) {
-            if (tile == null) {
+
+        if (streamedTiles != null && !streamedTiles.isEmpty()) {
+            renderTileLookup(batch, texturePackManager, streamedTiles, tileSize, bounds, mapInit.getWidth(), mapInit.getHeight());
+            return;
+        }
+
+        if (mapInit.getTiles() != null) {
+            Set<String> rendered = new HashSet<>();
+            renderTileCollection(batch, texturePackManager, mapInit.getTiles(), tileSize, bounds, rendered);
+        }
+    }
+
+    private static void renderTileLookup(SpriteBatch batch,
+                                         TexturePackManager texturePackManager,
+                                         Map<String, TileStateDto> tilesByPosition,
+                                         float tileSize,
+                                         int[] bounds,
+                                         int worldWidth,
+                                         int worldHeight) {
+        int startX = Math.max(0, bounds[0]);
+        int endX = Math.min(Math.max(0, worldWidth - 1), bounds[1]);
+        int startY = Math.max(0, bounds[2]);
+        int endY = Math.min(Math.max(0, worldHeight - 1), bounds[3]);
+
+        for (int y = startY; y <= endY; y++) {
+            for (int x = startX; x <= endX; x++) {
+                TileStateDto tile = tilesByPosition.get(x + "," + y);
+                if (tile != null) {
+                    drawTile(batch, texturePackManager, tile, tileSize);
+                }
+            }
+        }
+    }
+
+    private static void renderTileCollection(SpriteBatch batch,
+                                             TexturePackManager texturePackManager,
+                                             Collection<TileStateDto> tiles,
+                                             float tileSize,
+                                             int[] bounds,
+                                             Set<String> rendered) {
+        for (TileStateDto tile : tiles) {
+            if (tile == null || tile.getX() < bounds[0] || tile.getX() > bounds[1] || tile.getY() < bounds[2] || tile.getY() > bounds[3]) {
+                continue;
+            }
+            String key = tile.getX() + "," + tile.getY();
+            if (!rendered.add(key)) {
                 continue;
             }
 
-            Texture texture = texturePackManager.getTileTexture(tile.getType(), animationClock);
-            batch.draw(texture, tile.getX() * tileSize, tile.getY() * tileSize, tileSize, tileSize);
+            drawTile(batch, texturePackManager, tile, tileSize);
         }
+    }
+
+    private static void drawTile(SpriteBatch batch,
+                                 TexturePackManager texturePackManager,
+                                 TileStateDto tile,
+                                 float tileSize) {
+        Texture texture = texturePackManager.getTileTexture(tile.getType(), animationClock);
+        // Height is stored as map metadata, but the current top-down renderer has no explicit
+        // ramp/cliff transition sprites yet. Drawing normal tiles with a vertical offset creates
+        // visible seams and makes flat terrain look broken, so it stays visually flat for now.
+        batch.draw(texture, tile.getX() * tileSize, tile.getY() * tileSize, tileSize, tileSize);
+    }
+
+    private static int[] visibleTileBounds(OrthographicCamera camera, float tileSize, int marginTiles) {
+        float halfW = camera.viewportWidth * camera.zoom * 0.5f;
+        float halfH = camera.viewportHeight * camera.zoom * 0.5f;
+        int startX = (int) Math.floor((camera.position.x - halfW) / tileSize) - marginTiles;
+        int endX = (int) Math.floor((camera.position.x + halfW) / tileSize) + marginTiles;
+        int startY = (int) Math.floor((camera.position.y - halfH) / tileSize) - marginTiles;
+        int endY = (int) Math.floor((camera.position.y + halfH) / tileSize) + marginTiles;
+        return new int[]{startX, endX, startY, endY};
     }
 
 
@@ -90,6 +165,36 @@ public final class WorldRenderer {
             float size = tileSize * 0.58f;
             float x = worldItem.getPosition().getX() - size * 0.5f;
             float y = worldItem.getPosition().getY() - size * 0.5f;
+            batch.draw(texture, x, y, size, size);
+        }
+    }
+
+    private static void renderBibbles(SpriteBatch batch,
+                                      WorldSnapshotDto snapshot,
+                                      float tileSize) {
+        if (snapshot == null || snapshot.getBibbles() == null) {
+            return;
+        }
+
+        TexturePackManager texturePackManager = TexturePackManager.getInstance();
+        for (BibbleStateDto bibble : snapshot.getBibbles()) {
+            if (bibble == null || bibble.getPosition() == null) {
+                continue;
+            }
+            if (bibble.getLifecycleState() == null) {
+                continue;
+            }
+            switch (bibble.getLifecycleState()) {
+                case OWNED_STORED_TERMINAL, TRADE_PENDING, DEAD -> {
+                    continue;
+                }
+                default -> {
+                }
+            }
+            Texture texture = texturePackManager.getBibbleTexture(bibble.getPrimaryType() == null ? "NORMAL" : bibble.getPrimaryType().name());
+            float size = tileSize * 0.78f;
+            float x = bibble.getPosition().getX() - size * 0.5f;
+            float y = bibble.getPosition().getY() - size * 0.55f;
             batch.draw(texture, x, y, size, size);
         }
     }

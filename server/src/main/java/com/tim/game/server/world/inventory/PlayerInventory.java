@@ -3,6 +3,7 @@ package com.tim.game.server.world.inventory;
 import com.tim.game.shared.DTOs.update.InventorySlotDto;
 import com.tim.game.shared.DTOs.update.ItemStackDto;
 import com.tim.game.shared.inventory.ItemCatalog;
+import com.tim.game.shared.crafting.CraftingIngredient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,6 +96,23 @@ public class PlayerInventory {
         return remaining;
     }
 
+
+    public int availableSpaceForItem(String itemType) {
+        String normalizedType = ItemCatalog.normalizeType(itemType);
+        int maxStack = ItemCatalog.getMaxStack(normalizedType);
+        int free = 0;
+        for (ItemStackDto current : slots) {
+            if (current == null || current.isEmpty()) {
+                free += maxStack;
+                continue;
+            }
+            if (normalizedType.equals(ItemCatalog.normalizeType(current.getItemType()))) {
+                free += Math.max(0, maxStack - current.getQuantity());
+            }
+        }
+        return free;
+    }
+
     public ItemStackDto removeFromSlot(int slotIndex, int amount) {
         ItemStackDto current = getSlot(slotIndex);
         if (current == null) {
@@ -150,6 +168,67 @@ public class PlayerInventory {
             }
         }
         return count;
+    }
+
+
+    public int countMatchingIngredient(CraftingIngredient ingredient) {
+        if (ingredient == null) {
+            return 0;
+        }
+
+        int count = 0;
+        for (ItemStackDto stack : slots) {
+            if (stack == null || stack.isEmpty()) {
+                continue;
+            }
+            if (matchesIngredient(stack, ingredient)) {
+                count += stack.getQuantity();
+            }
+        }
+        return count;
+    }
+
+    public boolean hasIngredient(CraftingIngredient ingredient) {
+        if (ingredient == null) {
+            return false;
+        }
+        return countMatchingIngredient(ingredient) >= Math.max(1, ingredient.getQuantity());
+    }
+
+    public boolean consumeIngredient(CraftingIngredient ingredient) {
+        if (!hasIngredient(ingredient)) {
+            return false;
+        }
+
+        int remaining = Math.max(1, ingredient.getQuantity());
+        for (int i = 0; i < slots.size() && remaining > 0; i++) {
+            ItemStackDto current = slots.get(i);
+            if (current == null || current.isEmpty()) {
+                continue;
+            }
+            if (!matchesIngredient(current, ingredient)) {
+                continue;
+            }
+
+            int removed = Math.min(current.getQuantity(), remaining);
+            current.setQuantity(current.getQuantity() - removed);
+            remaining -= removed;
+            if (current.getQuantity() <= 0) {
+                slots.set(i, null);
+            }
+        }
+
+        return remaining <= 0;
+    }
+
+    private boolean matchesIngredient(ItemStackDto stack, CraftingIngredient ingredient) {
+        if (stack == null || stack.isEmpty() || ingredient == null) {
+            return false;
+        }
+        if (ingredient.isCategoryRequirement()) {
+            return ItemCatalog.hasCategory(stack.getItemType(), ingredient.getItemOrCategory());
+        }
+        return ItemCatalog.normalizeType(ingredient.getItemOrCategory()).equals(ItemCatalog.normalizeType(stack.getItemType()));
     }
 
     public List<InventorySlotDto> toDtoSlots() {

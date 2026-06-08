@@ -1,0 +1,25 @@
+{
+  "id": "bibble_sprout_walk",
+  "type": "entity_animation",
+  "entity": "bibble_sprout",
+  "action": "walk",
+  "file": "entities/bibbles/bibble_sprout_walk_sheet.png",
+  "frame_size": [
+    32,
+    32
+  ],
+  "directions": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "frames_per_direction": 4,
+  "row_order": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "col_order": "frame_index"
+}

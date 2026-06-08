@@ -8,5 +8,7 @@ public enum DebugCategory {
     RENDER,
     NETWORK,
     BUILDING,
+    INVENTORY,
+    BIBBLE,
     INPUT
 }

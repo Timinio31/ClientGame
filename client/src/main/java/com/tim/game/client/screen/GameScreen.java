@@ -20,20 +20,35 @@ import com.tim.game.client.net.ClientMessageBus;
 import com.tim.game.client.net.ClientRabbitConnection;
 import com.tim.game.client.net.SnapshotBuffer;
 import com.tim.game.client.render.WorldRenderer;
+import com.tim.game.client.ui.CraftingMenuRenderer;
+import com.tim.game.client.ui.BibbleMenuRenderer;
 import com.tim.game.client.ui.InventoryHudRenderer;
 import com.tim.game.shared.DTOs.input.BuildInputDto;
+import com.tim.game.shared.DTOs.input.ActionInputDto;
+import com.tim.game.shared.DTOs.input.BibbleInputDto;
+import com.tim.game.shared.DTOs.input.CraftingInputDto;
 import com.tim.game.shared.DTOs.input.InventoryActionInputDto;
 import com.tim.game.shared.DTOs.input.MoveInputDto;
+import com.tim.game.shared.DTOs.input.MapChunkRequestInputDto;
 import com.tim.game.shared.DTOs.update.InventorySlotDto;
 import com.tim.game.shared.DTOs.update.ItemStackDto;
 import com.tim.game.shared.DTOs.update.MapInitDto;
+import com.tim.game.shared.DTOs.update.MapChunkDto;
+import com.tim.game.shared.DTOs.update.TileStateDto;
 import com.tim.game.shared.DTOs.update.PlayerStateDto;
 import com.tim.game.shared.DTOs.update.WorldSnapshotDto;
+import com.tim.game.shared.config.WorldSettings;
+import com.tim.game.shared.crafting.CraftingRecipe;
 import com.tim.game.shared.messaging.CommandMessage;
 import com.tim.game.shared.messaging.EventMessage;
 import com.tim.game.shared.messaging.MessageType;
 import com.tim.game.shared.model.Vector2f;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class GameScreen extends ScreenAdapter {
@@ -42,7 +57,7 @@ public class GameScreen extends ScreenAdapter {
     private static final float ZOOM_MIN = 0.5f;
     private static final float ZOOM_MAX = 2.5f;
     private static final float ZOOM_STEP = 0.1f;
-    private static final float MOVE_REPEAT_INTERVAL = 0.15f;
+    private static final float DEFAULT_MOVE_REPEAT_INTERVAL = 0.15f;
 
     private final ClientGame game;
     private final ClientConfig cfg;
@@ -53,6 +68,8 @@ public class GameScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private BitmapFont font;
     private InventoryHudRenderer inventoryHudRenderer;
+    private CraftingMenuRenderer craftingMenuRenderer;
+    private BibbleMenuRenderer bibbleMenuRenderer;
 
     private final ObjectMapper mapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -63,11 +80,19 @@ public class GameScreen extends ScreenAdapter {
 
     private final AtomicReference<MapInitDto> lastMapInit = new AtomicReference<>();
     private final AtomicReference<WorldSnapshotDto> lastSnapshot = new AtomicReference<>();
+    private final AtomicReference<WorldSettings> lastWorldSettings = new AtomicReference<>(WorldSettings.defaults());
+    private static final int MAX_INITIAL_CHUNK_REQUESTS_PER_FRAME = 32;
+
+    private final Map<String, TileStateDto> streamedTiles = new ConcurrentHashMap<>();
+    private final Set<String> loadedChunks = ConcurrentHashMap.newKeySet();
+    private final Set<String> pendingChunks = ConcurrentHashMap.newKeySet();
 
     private float scrollY = 0f;
     private float moveRepeatTimer = 0f;
     private boolean connectionFailed;
     private boolean inventoryExpanded;
+    private boolean craftingMenuOpen;
+    private boolean bibbleMenuOpen;
     private String connectionError = "";
 
     public GameScreen(ClientGame game, ClientConfig cfg) {
@@ -85,6 +110,8 @@ public class GameScreen extends ScreenAdapter {
         batch = new SpriteBatch();
         font = new BitmapFont();
         inventoryHudRenderer = new InventoryHudRenderer();
+        craftingMenuRenderer = new CraftingMenuRenderer();
+        bibbleMenuRenderer = new BibbleMenuRenderer();
         font.getData().setScale(1.1f);
 
         snapshotBuffer = new SnapshotBuffer();
@@ -116,33 +143,72 @@ public class GameScreen extends ScreenAdapter {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
-                    leaveToMenu();
+                    if (craftingMenuOpen) {
+                        craftingMenuOpen = false;
+                    } else if (bibbleMenuOpen) {
+                        bibbleMenuOpen = false;
+                    } else {
+                        leaveToMenu();
+                    }
                     return true;
                 }
                 if (keycode == Input.Keys.F5) {
                     game.getTexturePackManager().reloadActivePack();
                     return true;
                 }
+                if (keycode == Input.Keys.B) {
+                    if (BibbleMenuRenderer.isBibbleMenuAllowed(currentSettings())) {
+                        bibbleMenuOpen = !bibbleMenuOpen;
+                        if (bibbleMenuOpen) {
+                            craftingMenuOpen = false;
+                        }
+                    }
+                    return true;
+                }
+                if (bibbleMenuOpen) {
+                    return handleBibbleMenuKey(keycode);
+                }
+                if (keycode == Input.Keys.C) {
+                    if (CraftingMenuRenderer.isCraftingMenuAllowed(currentSettings())) {
+                        craftingMenuOpen = !craftingMenuOpen;
+                        if (craftingMenuOpen) {
+                            bibbleMenuOpen = false;
+                        }
+                    }
+                    return true;
+                }
                 if (keycode == Input.Keys.I) {
-                    inventoryExpanded = !inventoryExpanded;
+                    if (currentSettings().isInventoryEnabled()) {
+                        inventoryExpanded = !inventoryExpanded;
+                    }
                     return true;
                 }
                 if (keycode == Input.Keys.E) {
-                    sendInventoryAction("PICKUP_NEAREST", -1, 1);
+                    if (currentSettings().isInventoryEnabled() && currentSettings().isWorldItemsEnabled()) {
+                        sendInventoryAction("PICKUP_NEAREST", -1, 1);
+                    }
                     return true;
                 }
                 if (keycode == Input.Keys.Q) {
-                    sendInventoryAction("DROP_SELECTED", -1, 1);
+                    if (currentSettings().isInventoryEnabled() && currentSettings().isWorldItemsEnabled()) {
+                        sendInventoryAction("DROP_SELECTED", -1, 1);
+                    }
                     return true;
                 }
                 if (keycode == Input.Keys.F) {
-                    sendInventoryAction("USE_SELECTED", -1, 1);
+                    if (currentSettings().isInventoryEnabled()) {
+                        sendInventoryAction("USE_SELECTED", -1, 1);
+                    }
                     return true;
                 }
 
                 int selectedSlot = hotbarSlotForKey(keycode);
                 if (selectedSlot >= 0) {
-                    sendInventoryAction("SELECT_SLOT", selectedSlot, 1);
+                    if (craftingMenuOpen) {
+                        craftVisibleRecipe(selectedSlot);
+                    } else if (currentSettings().isInventoryEnabled()) {
+                        sendInventoryAction("SELECT_SLOT", selectedSlot, 1);
+                    }
                     return true;
                 }
                 return false;
@@ -159,19 +225,33 @@ public class GameScreen extends ScreenAdapter {
 
         consumeServerEvents();
 
-        handleInput();
-        handleBuildInput();
+        MapInitDto mapInit = lastMapInit.get();
+        preloadInitialMapChunks(mapInit);
+        boolean mapPreloading = isInitialMapPreloading(mapInit);
+
+        if (!mapPreloading) {
+            handleInput();
+            handleActionInput();
+            handleBuildInput();
+        }
         handleZoom();
 
         Gdx.gl.glClearColor(0.08f, 0.08f, 0.10f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        MapInitDto mapInit = lastMapInit.get();
+        if (mapPreloading) {
+            renderInitialMapLoading(mapInit);
+            return;
+        }
+
         WorldSnapshotDto snapshot = lastSnapshot.get();
         Vector2f localPlayerPos = WorldRenderer.getLocalPlayerPos(snapshot, cfg.clientId);
 
         if (localPlayerPos != null) {
             camera.position.set(localPlayerPos.getX(), localPlayerPos.getY(), 0f);
+        } else if (mapInit != null && mapInit.getSpawnPoints() != null && !mapInit.getSpawnPoints().isEmpty()) {
+            Vector2f spawn = mapInit.getSpawnPoints().get(0);
+            camera.position.set(spawn.getX(), spawn.getY(), 0f);
         } else if (mapInit != null) {
             camera.position.set(mapInit.getWidth() * mapInit.getTileSize() * 0.5f,
                     mapInit.getHeight() * mapInit.getTileSize() * 0.5f,
@@ -181,7 +261,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
         camera.update();
-        WorldRenderer.renderWorld(camera, shapes, batch, mapInit, snapshot, cfg.clientId);
+        WorldRenderer.renderWorld(camera, shapes, batch, mapInit, snapshot, cfg.clientId, streamedTiles);
         renderOverlay();
     }
 
@@ -211,16 +291,25 @@ public class GameScreen extends ScreenAdapter {
         String activePack = game.getTexturePackManager().getActivePack() == null
                 ? "none"
                 : game.getTexturePackManager().getActivePack().getDisplayName();
-        String info = "ESC: Menu | F5: Textures | WASD: Move | 1-8: Slot | I: Inventory | E: Pickup | F: Use | Q: Drop | Right click: Build"
+        WorldSettings settings = currentSettings();
+        String info = "ESC: Menu | F5: Textures | WASD: Move | 1-8: Slot/Craft | I: Inventory | C: Crafting | B: Bibbles | E: Pickup | F: Use | Q: Drop | Right click: Build"
                 + " | Host " + cfg.rabbitHost + ":" + cfg.rabbitPort + " | Room " + cfg.roomId + " | Pack " + activePack;
         font.draw(batch, info, 12f, Gdx.graphics.getHeight() - 12f);
+        font.draw(batch, "World: " + settings.getWorldName() + " | Map " + settings.getMapId() + " (" + settings.getMapMode() + ")"
+                + " | Features: inv=" + settings.isInventoryEnabled()
+                + ", build=" + settings.isBuildingEnabled()
+                + ", craft=" + settings.isCraftingEnabled()
+                + ", bibbles=" + settings.isBibblesEnabled()
+                + ", combat=" + settings.isCombatEnabled(), 12f, Gdx.graphics.getHeight() - 36f);
         if (lastMapInit.get() == null) {
             font.setColor(new Color(1f, 0.86f, 0.35f, 1f));
-            font.draw(batch, "Waiting for MAP_INIT. Move once if the server did not receive the initial PING.", 12f, Gdx.graphics.getHeight() - 36f);
+            font.draw(batch, "Waiting for MAP_INIT. Move once if the server did not receive the initial PING.", 12f, Gdx.graphics.getHeight() - 60f);
         }
         batch.end();
 
         inventoryHudRenderer.render(shapes, batch, font, hudCamera, lastSnapshot.get(), cfg.clientId, inventoryExpanded);
+        craftingMenuRenderer.render(shapes, batch, font, hudCamera, lastSnapshot.get(), cfg.clientId, currentSettings(), craftingMenuOpen);
+        bibbleMenuRenderer.render(shapes, batch, font, hudCamera, lastSnapshot.get(), cfg.clientId, currentSettings(), bibbleMenuOpen);
     }
 
     private void consumeServerEvents() {
@@ -230,9 +319,40 @@ public class GameScreen extends ScreenAdapter {
                 if (event.getType() == MessageType.MAP_INIT) {
                     MapInitDto mapInit = mapper.readValue(event.getPayloadJson(), MapInitDto.class);
                     lastMapInit.set(mapInit);
+                    streamedTiles.clear();
+                    loadedChunks.clear();
+                    pendingChunks.clear();
+                    boolean receivedFullTileList = mapInit.getTiles() != null && !mapInit.getTiles().isEmpty();
+                    if (receivedFullTileList) {
+                        indexTiles(mapInit.getTiles(), Math.max(1, mapInit.getChunkSize()));
+                        if (streamedTiles.size() >= expectedTileCount(mapInit)) {
+                            markAllChunksLoaded(mapInit);
+                        }
+                        // The renderer uses streamedTiles as a spatial lookup now. Keeping the full DTO
+                        // list in mapInit would duplicate memory and make every frame iterate the full map.
+                        mapInit.setTiles(new ArrayList<>());
+                    }
+                    WorldSettings receivedSettings = mapInit.getWorldSettings() == null ? WorldSettings.defaults() : mapInit.getWorldSettings().normalizedCopy();
+                    lastWorldSettings.set(receivedSettings);
+                    if (!CraftingMenuRenderer.isCraftingMenuAllowed(receivedSettings)) {
+                        craftingMenuOpen = false;
+                    }
+                    if (!BibbleMenuRenderer.isBibbleMenuAllowed(receivedSettings)) {
+                        bibbleMenuOpen = false;
+                    }
                     System.out.println("[Client] MAP_INIT received: room=" + mapInit.getRoomId()
                             + " size=" + mapInit.getWidth() + "x" + mapInit.getHeight()
+                            + " chunks=" + mapInit.getChunkSize()
+                            + " streaming=" + mapInit.isChunkStreamingEnabled()
                             + " tiles=" + mapInit.getTiles().size());
+                } else if (event.getType() == MessageType.MAP_CHUNK) {
+                    MapChunkDto chunk = mapper.readValue(event.getPayloadJson(), MapChunkDto.class);
+                    String chunkKey = chunkKey(chunk.getChunkX(), chunk.getChunkY());
+                    pendingChunks.remove(chunkKey);
+                    loadedChunks.add(chunkKey);
+                    if (chunk.getTiles() != null) {
+                        indexTiles(chunk.getTiles(), Math.max(1, chunk.getChunkSize()));
+                    }
                 } else if (event.getType() == MessageType.WORLD_SNAPSHOT) {
                     WorldSnapshotDto snapshot = mapper.readValue(event.getPayloadJson(), WorldSnapshotDto.class);
                     lastSnapshot.set(snapshot);
@@ -243,6 +363,156 @@ public class GameScreen extends ScreenAdapter {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void preloadInitialMapChunks(MapInitDto mapInit) {
+        if (mapInit == null || !mapInit.isChunkStreamingEnabled() || bus == null) {
+            return;
+        }
+
+        int totalChunks = expectedChunkCount(mapInit);
+        if (totalChunks <= 0 || loadedChunks.size() >= totalChunks) {
+            pendingChunks.clear();
+            return;
+        }
+
+        int chunkSize = Math.max(1, mapInit.getChunkSize());
+        int lastChunkX = Math.max(0, (mapInit.getWidth() - 1) / chunkSize);
+        int lastChunkY = Math.max(0, (mapInit.getHeight() - 1) / chunkSize);
+
+        int requestedThisFrame = 0;
+        for (int cy = 0; cy <= lastChunkY; cy++) {
+            for (int cx = 0; cx <= lastChunkX; cx++) {
+                if (requestedThisFrame >= MAX_INITIAL_CHUNK_REQUESTS_PER_FRAME) {
+                    return;
+                }
+                if (requestChunk(mapInit, cx, cy)) {
+                    requestedThisFrame++;
+                }
+            }
+        }
+    }
+
+    private boolean isInitialMapPreloading(MapInitDto mapInit) {
+        if (mapInit == null || !mapInit.isChunkStreamingEnabled()) {
+            return false;
+        }
+        int totalChunks = expectedChunkCount(mapInit);
+        return totalChunks > 0 && loadedChunks.size() < totalChunks;
+    }
+
+    private int expectedChunkCount(MapInitDto mapInit) {
+        if (mapInit == null) {
+            return 0;
+        }
+        int chunkSize = Math.max(1, mapInit.getChunkSize());
+        int chunksX = Math.max(1, ((mapInit.getWidth() - 1) / chunkSize) + 1);
+        int chunksY = Math.max(1, ((mapInit.getHeight() - 1) / chunkSize) + 1);
+        return chunksX * chunksY;
+    }
+
+    private int expectedTileCount(MapInitDto mapInit) {
+        if (mapInit == null) {
+            return 0;
+        }
+        return Math.max(0, mapInit.getWidth()) * Math.max(0, mapInit.getHeight());
+    }
+
+    private void indexTiles(List<TileStateDto> tiles, int chunkSize) {
+        if (tiles == null) {
+            return;
+        }
+        int safeChunkSize = Math.max(1, chunkSize);
+        for (TileStateDto tile : tiles) {
+            if (tile == null) {
+                continue;
+            }
+            streamedTiles.put(tileKey(tile.getX(), tile.getY()), tile);
+            loadedChunks.add(chunkKey(Math.floorDiv(tile.getX(), safeChunkSize), Math.floorDiv(tile.getY(), safeChunkSize)));
+        }
+    }
+
+    private void markAllChunksLoaded(MapInitDto mapInit) {
+        if (mapInit == null) {
+            return;
+        }
+        int chunkSize = Math.max(1, mapInit.getChunkSize());
+        int lastChunkX = Math.max(0, (mapInit.getWidth() - 1) / chunkSize);
+        int lastChunkY = Math.max(0, (mapInit.getHeight() - 1) / chunkSize);
+        for (int cy = 0; cy <= lastChunkY; cy++) {
+            for (int cx = 0; cx <= lastChunkX; cx++) {
+                loadedChunks.add(chunkKey(cx, cy));
+            }
+        }
+        pendingChunks.clear();
+    }
+
+    private void renderInitialMapLoading(MapInitDto mapInit) {
+        updateHudCamera();
+        batch.setProjectionMatrix(hudCamera.combined);
+        batch.begin();
+        font.getData().setScale(1.25f);
+        font.setColor(Color.WHITE);
+        font.draw(batch, "Generating and loading world map...", 60f, Gdx.graphics.getHeight() - 80f);
+        font.getData().setScale(1.0f);
+        font.setColor(Color.LIGHT_GRAY);
+        int totalChunks = expectedChunkCount(mapInit);
+        int loaded = Math.min(loadedChunks.size(), totalChunks);
+        float percent = totalChunks <= 0 ? 0f : (loaded * 100f / totalChunks);
+        String size = mapInit == null ? "unknown" : mapInit.getWidth() + "x" + mapInit.getHeight();
+        font.draw(batch, "Map: " + size + " | Chunks: " + loaded + "/" + totalChunks + " | Pending: " + pendingChunks.size(), 60f, Gdx.graphics.getHeight() - 120f);
+        font.draw(batch, "Progress: " + Math.round(percent) + "%", 60f, Gdx.graphics.getHeight() - 150f);
+        font.draw(batch, "The map is preloaded once at startup, so movement will not trigger runtime chunk streaming.", 60f, Gdx.graphics.getHeight() - 185f);
+        batch.end();
+    }
+
+    private boolean requestChunk(MapInitDto mapInit, int chunkX, int chunkY) {
+        int lastChunkX = Math.max(0, (mapInit.getWidth() - 1) / Math.max(1, mapInit.getChunkSize()));
+        int lastChunkY = Math.max(0, (mapInit.getHeight() - 1) / Math.max(1, mapInit.getChunkSize()));
+        if (chunkX < 0 || chunkY < 0 || chunkX > lastChunkX || chunkY > lastChunkY) {
+            return false;
+        }
+
+        String key = chunkKey(chunkX, chunkY);
+        if (loadedChunks.contains(key) || !pendingChunks.add(key)) {
+            return false;
+        }
+
+        try {
+            MapChunkRequestInputDto input = new MapChunkRequestInputDto(chunkX, chunkX, chunkY, chunkY);
+            String payloadJson = mapper.writeValueAsString(input);
+            CommandMessage commandMessage = new CommandMessage(
+                    MessageType.MAP_CHUNK_REQUEST,
+                    cfg.roomId,
+                    cfg.clientId,
+                    payloadJson
+            );
+            bus.publishCommand(cfg, commandMessage);
+            return true;
+        } catch (Exception exception) {
+            pendingChunks.remove(key);
+            System.err.println("[Client] MAP_CHUNK_REQUEST publish failed:");
+            exception.printStackTrace();
+            return false;
+        }
+    }
+
+    private String tileKey(int x, int y) {
+        return x + "," + y;
+    }
+
+    private String chunkKey(int x, int y) {
+        return x + "," + y;
+    }
+
+    private float currentTileSize() {
+        MapInitDto mapInit = lastMapInit.get();
+        return mapInit != null && mapInit.getTileSize() > 0f ? mapInit.getTileSize() : TILE_SIZE;
+    }
+
+    private WorldSettings currentSettings() {
+        WorldSettings settings = lastWorldSettings.get();
+        return settings == null ? WorldSettings.defaults() : settings;
     }
 
     private void sendPingForMapInit() {
@@ -256,6 +526,60 @@ public class GameScreen extends ScreenAdapter {
             bus.publishCommand(cfg, commandMessage);
         } catch (Exception exception) {
             System.err.println("[Client] Initial PING failed:");
+            exception.printStackTrace();
+        }
+    }
+
+    private boolean handleBibbleMenuKey(int keycode) {
+        int selectedSlot = hotbarSlotForKey(keycode);
+        if (selectedSlot >= 0 && selectedSlot < currentSettings().getMaxActiveBibbles()) {
+            sendBibbleAction("TOGGLE_SLOT", "", selectedSlot, "", "", "");
+            return true;
+        }
+        if (keycode == Input.Keys.R) {
+            sendBibbleAction("RECALL_ALL", "", -1, "RETURN_TO_TERMINAL", "", "");
+            return true;
+        }
+        if (keycode == Input.Keys.F) {
+            sendBibbleAction("FOLLOW_ALL", "", -1, "FOLLOW", "", "");
+            return true;
+        }
+        if (keycode == Input.Keys.S) {
+            sendBibbleAction("STAY_ALL", "", -1, "STAY", "", "");
+            return true;
+        }
+        if (keycode == Input.Keys.P) {
+            sendBibbleAction("PATROL_ALL", "", -1, "PATROL", "", "");
+            return true;
+        }
+        if (keycode == Input.Keys.W) {
+            sendBibbleAction("ASSIGN_NEAREST_WORKSTATION", "", -1, "WORK", "", "");
+            return true;
+        }
+        if (keycode == Input.Keys.C) {
+            sendBibbleAction("CAPTURE_NEAREST", "", -1, "", "", "");
+            return true;
+        }
+        if (keycode == Input.Keys.B) {
+            bibbleMenuOpen = false;
+            return true;
+        }
+        return true;
+    }
+
+    private void sendBibbleAction(String action, String bibbleId, int teamSlot, String command, String targetEntityId, String targetPlayerId) {
+        try {
+            BibbleInputDto input = new BibbleInputDto(action, bibbleId, teamSlot, command, targetEntityId, targetPlayerId);
+            String payloadJson = mapper.writeValueAsString(input);
+            CommandMessage commandMessage = new CommandMessage(
+                    MessageType.BIBBLE,
+                    cfg.roomId,
+                    cfg.clientId,
+                    payloadJson
+            );
+            bus.publishCommand(cfg, commandMessage);
+        } catch (Exception exception) {
+            System.err.println("[Client] BIBBLE publish failed:");
             exception.printStackTrace();
         }
     }
@@ -277,6 +601,41 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
+
+    private void craftVisibleRecipe(int visibleRecipeIndex) {
+        if (!CraftingMenuRenderer.isCraftingMenuAllowed(currentSettings())) {
+            craftingMenuOpen = false;
+            return;
+        }
+        List<CraftingRecipe> recipes = CraftingMenuRenderer.visibleRecipes(currentSettings(), lastSnapshot.get(), cfg.clientId);
+        if (visibleRecipeIndex < 0 || visibleRecipeIndex >= recipes.size()) {
+            return;
+        }
+
+        CraftingRecipe recipe = recipes.get(visibleRecipeIndex);
+        sendCraftingAction(recipe);
+    }
+
+    private void sendCraftingAction(CraftingRecipe recipe) {
+        if (recipe == null) {
+            return;
+        }
+        try {
+            CraftingInputDto input = new CraftingInputDto(recipe.getRecipeId(), recipe.getStationType(), "");
+            String payloadJson = mapper.writeValueAsString(input);
+            CommandMessage commandMessage = new CommandMessage(
+                    MessageType.CRAFTING,
+                    cfg.roomId,
+                    cfg.clientId,
+                    payloadJson
+            );
+            bus.publishCommand(cfg, commandMessage);
+        } catch (Exception exception) {
+            System.err.println("[Client] CRAFTING publish failed:");
+            exception.printStackTrace();
+        }
+    }
+
     private int hotbarSlotForKey(int keycode) {
         return switch (keycode) {
             case Input.Keys.NUM_1, Input.Keys.NUMPAD_1 -> 0;
@@ -292,8 +651,19 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void handleInput() {
+        if (craftingMenuOpen || bibbleMenuOpen) {
+            return;
+        }
         moveRepeatTimer += Gdx.graphics.getDeltaTime();
-        if (moveRepeatTimer < MOVE_REPEAT_INTERVAL) {
+        WorldSettings settings = currentSettings();
+        if (!settings.isMovementEnabled()) {
+            return;
+        }
+
+        float moveInterval = settings.getMovementRepeatIntervalSeconds() > 0f
+                ? settings.getMovementRepeatIntervalSeconds()
+                : DEFAULT_MOVE_REPEAT_INTERVAL;
+        if (moveRepeatTimer < moveInterval) {
             return;
         }
 
@@ -330,7 +700,47 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
+
+    private void handleActionInput() {
+        if (craftingMenuOpen || bibbleMenuOpen) {
+            return;
+        }
+        if (!currentSettings().isPlayerInteractionEnabled()) {
+            return;
+        }
+        if (!Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            return;
+        }
+
+        Vector3 world = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0f);
+        camera.unproject(world);
+        sendAction("ATTACK", world.x, world.y);
+    }
+
+    private void sendAction(String action, float targetX, float targetY) {
+        try {
+            ActionInputDto input = new ActionInputDto(action, targetX, targetY);
+            String payloadJson = mapper.writeValueAsString(input);
+            CommandMessage commandMessage = new CommandMessage(
+                    MessageType.ACTION,
+                    cfg.roomId,
+                    cfg.clientId,
+                    payloadJson
+            );
+            bus.publishCommand(cfg, commandMessage);
+        } catch (Exception exception) {
+            System.err.println("[Client] ACTION publish failed:");
+            exception.printStackTrace();
+        }
+    }
+
     private void handleBuildInput() {
+        if (craftingMenuOpen || bibbleMenuOpen) {
+            return;
+        }
+        if (!currentSettings().isBuildingEnabled()) {
+            return;
+        }
         if (!Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
             return;
         }
@@ -338,8 +748,9 @@ public class GameScreen extends ScreenAdapter {
         Vector3 world = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0f);
         camera.unproject(world);
 
-        int tileX = (int) Math.floor(world.x / TILE_SIZE);
-        int tileY = (int) Math.floor(world.y / TILE_SIZE);
+        float tileSize = currentTileSize();
+        int tileX = (int) Math.floor(world.x / tileSize);
+        int tileY = (int) Math.floor(world.y / tileSize);
 
         String buildingType = getSelectedBuildType(lastSnapshot.get());
         if (buildingType == null) {

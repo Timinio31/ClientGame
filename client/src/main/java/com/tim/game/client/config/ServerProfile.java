@@ -1,5 +1,7 @@
 package com.tim.game.client.config;
 
+import com.tim.game.shared.config.WorldSettings;
+
 public class ServerProfile {
     private String name;
     private String host;
@@ -10,6 +12,7 @@ public class ServerProfile {
     private String roomId;
     private String roomPassword;
     private String lastUsedAt;
+    private WorldSettings worldSettings = WorldSettings.defaults();
 
     public ServerProfile() {
     }
@@ -22,6 +25,18 @@ public class ServerProfile {
                          String virtualHost,
                          String roomId,
                          String roomPassword) {
+        this(name, host, port, username, password, virtualHost, roomId, roomPassword, WorldSettings.defaults());
+    }
+
+    public ServerProfile(String name,
+                         String host,
+                         int port,
+                         String username,
+                         String password,
+                         String virtualHost,
+                         String roomId,
+                         String roomPassword,
+                         WorldSettings worldSettings) {
         this.name = name;
         this.host = host;
         this.port = port;
@@ -30,6 +45,7 @@ public class ServerProfile {
         this.virtualHost = virtualHost;
         this.roomId = roomId;
         this.roomPassword = roomPassword;
+        setWorldSettings(worldSettings);
     }
 
     public static ServerProfile localDefault() {
@@ -41,7 +57,8 @@ public class ServerProfile {
                 "guest",
                 "/",
                 "1",
-                ""
+                "",
+                WorldSettings.defaults()
         );
     }
 
@@ -56,6 +73,7 @@ public class ServerProfile {
         copy.setRoomId(defaultIfBlank(roomId, "1"));
         copy.setRoomPassword(roomPassword == null ? "" : roomPassword);
         copy.setLastUsedAt(lastUsedAt);
+        copy.setWorldSettings(worldSettings == null ? WorldSettings.defaults() : worldSettings.normalizedCopy());
         return copy;
     }
 
@@ -138,5 +156,13 @@ public class ServerProfile {
 
     public void setLastUsedAt(String lastUsedAt) {
         this.lastUsedAt = lastUsedAt;
+    }
+
+    public WorldSettings getWorldSettings() {
+        return worldSettings;
+    }
+
+    public void setWorldSettings(WorldSettings worldSettings) {
+        this.worldSettings = worldSettings == null ? WorldSettings.defaults() : worldSettings.normalizedCopy();
     }
 }

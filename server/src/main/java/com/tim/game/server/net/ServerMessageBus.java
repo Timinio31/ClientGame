@@ -1,10 +1,12 @@
 package com.tim.game.server.net;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.CancelCallback;
 import com.rabbitmq.client.DeliverCallback;
 import com.tim.game.shared.DTOs.update.MapInitDto;
+import com.tim.game.shared.DTOs.update.MapChunkDto;
 import com.tim.game.shared.messaging.CommandMessage;
 import com.tim.game.shared.messaging.EventMessage;
 import com.tim.game.shared.messaging.MessageType;
@@ -26,6 +28,7 @@ public class ServerMessageBus {
         this.connection = connection;
         this.objectMapper = new ObjectMapper();
         this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        this.objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
     public void startConsumingCommands() throws IOException {
@@ -90,6 +93,24 @@ public class ServerMessageBus {
             sendEvent(event);
         } catch (Exception e) {
             System.err.println("[Server] Failed to send MAP_INIT to client=" + clientId + " room=" + roomId);
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMapChunkToClient(String roomId, String clientId, MapChunkDto mapChunk) {
+        try {
+            String payloadJson = objectMapper.writeValueAsString(mapChunk);
+
+            EventMessage event = new EventMessage(
+                    MessageType.MAP_CHUNK,
+                    roomId,
+                    clientId,
+                    payloadJson
+            );
+
+            sendEvent(event);
+        } catch (Exception e) {
+            System.err.println("[Server] Failed to send MAP_CHUNK to client=" + clientId + " room=" + roomId);
             e.printStackTrace();
         }
     }

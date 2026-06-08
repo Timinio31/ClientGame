@@ -1,6 +1,7 @@
 package com.tim.game.shared.DTOs.update;
 import com.tim.game.shared.model.EntityType;
 import com.tim.game.shared.model.Vector2f;
+import com.tim.game.shared.bibble.BibbleInventoryDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class PlayerStateDto {
 
     private List<InventorySlotDto> inventorySlots = new ArrayList<>();
     private int selectedInventorySlot;
+    private BibbleInventoryDto bibbleInventory = new BibbleInventoryDto();
 
     public PlayerStateDto(){}
 
@@ -123,6 +125,14 @@ public class PlayerStateDto {
         this.selectedInventorySlot = selectedInventorySlot;
     }
 
+    public BibbleInventoryDto getBibbleInventory() {
+        return bibbleInventory;
+    }
+
+    public void setBibbleInventory(BibbleInventoryDto bibbleInventory) {
+        this.bibbleInventory = bibbleInventory == null ? new BibbleInventoryDto() : bibbleInventory;
+    }
+
     @Override
     public String toString() {
         return "PlayerStateDto{" +
@@ -136,6 +146,7 @@ public class PlayerStateDto {
                 ", maxStamina=" + maxStamina +
                 ", inventorySlots=" + inventorySlots.size() +
                 ", selectedInventorySlot=" + selectedInventorySlot +
+                ", activeBibbles=" + (bibbleInventory == null ? 0 : bibbleInventory.getActiveBibbleIds().size()) +
                 '}';
     }
 }

@@ -6,9 +6,13 @@ import com.tim.game.server.net.ServerMessageBus;
 import com.tim.game.server.world.WorldState;
 import com.tim.game.shared.DTOs.input.ActionInputDto;
 import com.tim.game.shared.DTOs.input.BuildInputDto;
+import com.tim.game.shared.DTOs.input.BibbleInputDto;
+import com.tim.game.shared.DTOs.input.CraftingInputDto;
 import com.tim.game.shared.DTOs.input.InventoryActionInputDto;
 import com.tim.game.shared.DTOs.input.MoveInputDto;
+import com.tim.game.shared.DTOs.input.MapChunkRequestInputDto;
 import com.tim.game.shared.DTOs.update.MapInitDto;
+import com.tim.game.shared.DTOs.update.MapChunkDto;
 import com.tim.game.shared.messaging.CommandMessage;
 import com.tim.game.shared.messaging.MessageType;
 import com.tim.game.shared.model.Vector2f;
@@ -97,7 +101,29 @@ public class CommandHandler {
             case ACTION -> handleAction(commandMessage);
             case BUILD -> handleBuild(commandMessage);
             case INVENTORY -> handleInventory(commandMessage);
+            case CRAFTING -> handleCrafting(commandMessage);
+            case BIBBLE -> handleBibble(commandMessage);
+            case MAP_CHUNK_REQUEST -> handleMapChunkRequest(commandMessage);
             default -> System.out.println("Unhandled command type: " + type + " commandMessage=" + commandMessage);
+        }
+    }
+
+    private void handleMapChunkRequest(CommandMessage commandMessage) throws IOException {
+        if (messageBus == null) {
+            return;
+        }
+        MapChunkRequestInputDto input = objectMapper.readValue(commandMessage.getPayloadJson(), MapChunkRequestInputDto.class);
+        List<MapChunkDto> chunks = worldState.buildMapChunks(
+                input.getMinChunkX(),
+                input.getMaxChunkX(),
+                input.getMinChunkY(),
+                input.getMaxChunkY()
+        );
+        String roomId = commandMessage.getRoomId() == null || commandMessage.getRoomId().isBlank()
+                ? worldState.getRoomId()
+                : commandMessage.getRoomId();
+        for (MapChunkDto chunk : chunks) {
+            messageBus.sendMapChunkToClient(roomId, commandMessage.getClientId(), chunk);
         }
     }
 
@@ -118,11 +144,10 @@ public class CommandHandler {
 
     private void handleAction(CommandMessage commandMessage) throws IOException {
         ActionInputDto input = objectMapper.readValue(commandMessage.getPayloadJson(), ActionInputDto.class);
-
-        // Später echte Action-Logik:
-        // - ATTACK -> Schaden berechnen
-        // - INTERACT -> Kiste öffnen, Schalter umlegen etc.
-        System.out.println("Received ACTION from " + commandMessage.getClientId() + ": " + input);
+        boolean ok = worldState.handlePlayerAction(commandMessage.getClientId(), input);
+        if (!ok) {
+            System.out.println("[Server] ACTION rejected from " + commandMessage.getClientId() + ": " + input);
+        }
     }
 
     private void handleBuild(CommandMessage commandMessage) throws IOException {
@@ -153,6 +178,34 @@ public class CommandHandler {
             case "DROP_SELECTED" -> worldState.dropSelectedInventoryItem(commandMessage.getClientId(), input.getAmount());
             case "PICKUP_NEAREST" -> worldState.pickupNearestWorldItem(commandMessage.getClientId());
             default -> System.out.println("Unhandled inventory action: " + action + " from " + commandMessage.getClientId());
+        }
+    }
+
+
+    private void handleCrafting(CommandMessage commandMessage) throws IOException {
+        CraftingInputDto input = objectMapper.readValue(commandMessage.getPayloadJson(), CraftingInputDto.class);
+        boolean ok = worldState.craftRecipe(
+                commandMessage.getClientId(),
+                input.getRecipeId(),
+                input.getContext(),
+                input.getTargetEntityId()
+        );
+
+        if (!ok) {
+            System.out.println("[Server] CRAFTING rejected by " + commandMessage.getClientId() + ": " + input.getRecipeId());
+        } else {
+            System.out.println("[Server] CRAFTING completed by " + commandMessage.getClientId() + ": " + input.getRecipeId());
+        }
+    }
+
+    private void handleBibble(CommandMessage commandMessage) throws IOException {
+        BibbleInputDto input = objectMapper.readValue(commandMessage.getPayloadJson(), BibbleInputDto.class);
+        boolean ok = worldState.handleBibbleInput(commandMessage.getClientId(), input);
+
+        if (!ok) {
+            System.out.println("[Server] BIBBLE rejected by " + commandMessage.getClientId() + ": " + input);
+        } else {
+            System.out.println("[Server] BIBBLE applied by " + commandMessage.getClientId() + ": " + input);
         }
     }
 

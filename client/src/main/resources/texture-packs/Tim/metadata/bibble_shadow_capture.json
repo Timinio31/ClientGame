@@ -1,0 +1,25 @@
+{
+  "id": "bibble_shadow_capture",
+  "type": "entity_animation",
+  "entity": "bibble_shadow",
+  "action": "capture",
+  "file": "entities/bibbles/bibble_shadow_capture_sheet.png",
+  "frame_size": [
+    32,
+    32
+  ],
+  "directions": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "frames_per_direction": 3,
+  "row_order": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "col_order": "frame_index"
+}

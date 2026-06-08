@@ -11,6 +11,9 @@ public enum MessageType {
     ACTION,
     BUILD,
     INVENTORY,
+    CRAFTING,
+    BIBBLE,
+    MAP_CHUNK_REQUEST,
     MINE,
     CAPTURE,
     SUMMON,
@@ -19,6 +22,7 @@ public enum MessageType {
 
     // Server → Client (Updates)
     MAP_INIT,
+    MAP_CHUNK,
     PLAYER_STATE,
     WORLD_SNAPSHOT,
     ENTITY_UPDATE,

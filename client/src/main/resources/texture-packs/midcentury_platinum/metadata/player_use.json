@@ -1,0 +1,25 @@
+{
+  "id": "player_use",
+  "type": "entity_animation",
+  "entity": "player",
+  "action": "use",
+  "file": "entities/player/player_use_sheet.png",
+  "frame_size": [
+    32,
+    48
+  ],
+  "directions": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "frames_per_direction": 3,
+  "row_order": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "col_order": "frame_index"
+}

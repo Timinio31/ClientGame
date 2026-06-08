@@ -1,0 +1,156 @@
+{
+  "id": "player_all_animations",
+  "type": "entity_animation_bundle",
+  "entity": "player",
+  "file": "entities/player/player_all_animations_sheet.png",
+  "frame_size": [
+    32,
+    48
+  ],
+  "rows": [
+    {
+      "row": 0,
+      "action": "idle",
+      "direction": "down",
+      "frames": 2
+    },
+    {
+      "row": 1,
+      "action": "idle",
+      "direction": "left",
+      "frames": 2
+    },
+    {
+      "row": 2,
+      "action": "idle",
+      "direction": "right",
+      "frames": 2
+    },
+    {
+      "row": 3,
+      "action": "idle",
+      "direction": "up",
+      "frames": 2
+    },
+    {
+      "row": 4,
+      "action": "walk",
+      "direction": "down",
+      "frames": 4
+    },
+    {
+      "row": 5,
+      "action": "walk",
+      "direction": "left",
+      "frames": 4
+    },
+    {
+      "row": 6,
+      "action": "walk",
+      "direction": "right",
+      "frames": 4
+    },
+    {
+      "row": 7,
+      "action": "walk",
+      "direction": "up",
+      "frames": 4
+    },
+    {
+      "row": 8,
+      "action": "attack",
+      "direction": "down",
+      "frames": 4
+    },
+    {
+      "row": 9,
+      "action": "attack",
+      "direction": "left",
+      "frames": 4
+    },
+    {
+      "row": 10,
+      "action": "attack",
+      "direction": "right",
+      "frames": 4
+    },
+    {
+      "row": 11,
+      "action": "attack",
+      "direction": "up",
+      "frames": 4
+    },
+    {
+      "row": 12,
+      "action": "flee",
+      "direction": "down",
+      "frames": 4
+    },
+    {
+      "row": 13,
+      "action": "flee",
+      "direction": "left",
+      "frames": 4
+    },
+    {
+      "row": 14,
+      "action": "flee",
+      "direction": "right",
+      "frames": 4
+    },
+    {
+      "row": 15,
+      "action": "flee",
+      "direction": "up",
+      "frames": 4
+    },
+    {
+      "row": 16,
+      "action": "use",
+      "direction": "down",
+      "frames": 3
+    },
+    {
+      "row": 17,
+      "action": "use",
+      "direction": "left",
+      "frames": 3
+    },
+    {
+      "row": 18,
+      "action": "use",
+      "direction": "right",
+      "frames": 3
+    },
+    {
+      "row": 19,
+      "action": "use",
+      "direction": "up",
+      "frames": 3
+    },
+    {
+      "row": 20,
+      "action": "hurt",
+      "direction": "down",
+      "frames": 2
+    },
+    {
+      "row": 21,
+      "action": "hurt",
+      "direction": "left",
+      "frames": 2
+    },
+    {
+      "row": 22,
+      "action": "hurt",
+      "direction": "right",
+      "frames": 2
+    },
+    {
+      "row": 23,
+      "action": "hurt",
+      "direction": "up",
+      "frames": 2
+    }
+  ]
+}
